@@ -1,0 +1,319 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    "helm.sh/resource-policy": keep
+  labels:
+    app: istio-pilot
+    chart: istio
+    heritage: Tiller
+    release: istio
+  name: trafficlabels.istio.alibabacloud.com
+spec:
+  group: istio.alibabacloud.com
+  names:
+    categories:
+    - alibabacloud-com
+    - istio-alibabacloud-com
+    kind: TrafficLabel
+    listKind: TrafficLabelList
+    plural: trafficlabels
+    shortNames:
+    - tl
+    singular: trafficlabel
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        properties:
+          spec:
+            description: Configuration affecting traffic label.
+            properties:
+              hosts:
+                description: The services to which the Settings should be applied.
+                items:
+                  type: string
+                type: array
+              rules:
+                items:
+                  properties:
+                    attachTo:
+                      items:
+                        type: string
+                      type: array
+                    http:
+                      items:
+                        properties:
+                          attachTo:
+                            items:
+                              type: string
+                            type: array
+                          labels:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                overwrite:
+                                  type: boolean
+                                valueFrom:
+                                  description: Source for the label's value.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          match:
+                            items:
+                              properties:
+                                authority:
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                      type: string
+                                  type: object
+                                gateways:
+                                  description: Names of gateways where the rule should
+                                    be applied.
+                                  items:
+                                    type: string
+                                  type: array
+                                headers:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                        type: string
+                                    type: object
+                                  type: object
+                                ignoreUriCase:
+                                  description: Flag to specify whether the URI matching
+                                    should be case-insensitive.
+                                  type: boolean
+                                method:
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                      type: string
+                                  type: object
+                                name:
+                                  description: The name assigned to a match.
+                                  type: string
+                                port:
+                                  description: Specifies the ports on the host that
+                                    is being addressed.
+                                  type: integer
+                                queryParams:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                        type: string
+                                    type: object
+                                  description: Query parameters for matching.
+                                  type: object
+                                scheme:
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                      type: string
+                                  type: object
+                                sourceLabels:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                sourceNamespace:
+                                  description: Source namespace constraining the applicability
+                                    of a rule to workloads in that namespace.
+                                  type: string
+                                statPrefix:
+                                  description: The human readable prefix to use when
+                                    emitting statistics for this route.
+                                  type: string
+                                uri:
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                      type: string
+                                  type: object
+                                withoutHeaders:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).
+                                        type: string
+                                    type: object
+                                  description: withoutHeader has the same syntax with
+                                    the header, but has opposite meaning.
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                    labels:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                          overwrite:
+                            type: boolean
+                          valueFrom:
+                            description: Source for the label's value.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                    protocols:
+                      type: string
+                  type: object
+                type: array
+              workloadSelector:
+                properties:
+                  labels:
+                    additionalProperties:
+                      type: string
+                    type: object
+                type: object
+            type: object
+          status:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

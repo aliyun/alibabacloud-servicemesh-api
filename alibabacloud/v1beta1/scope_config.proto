@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+import "k8s.io/apimachinery/pkg/apis/meta/v1/generated.proto";
+import "k8s.io/apimachinery/pkg/util/intstr/generated.proto";
+
+package istio.alibabacloud.v1beta1;
+option go_package = "istio.io/api/alibabacloud/v1beta1";
+
+//```yaml
+//apiVersion: istio.alibabacloud.com/v1beta1
+//kind: ScopeConfig
+//metadata:
+//  name: reviews-route-canary
+//spec:
+//  scope:
+//    selector:
+//        matchLabels:
+//            app: ratings
+//        matchExpressions:
+//        - {key: tier, operator: In, values: [cache]}
+//        - {key: environment, operator: NotIn, values: [dev]}
+//    rollingUpdate:
+//        batchNum: 5
+//        batchOrder: 1
+//```
+
+// Configuration affecting traffic routing.
+//
+// <!-- crd generation tags
+// +cue-gen:ScopeConfig:groupName:istio.alibabacloud.com
+// +cue-gen:ScopeConfig:version:v1beta1
+// +cue-gen:ScopeConfig:storageVersion
+// +cue-gen:ScopeConfig:annotations:helm.sh/resource-policy=keep
+// +cue-gen:ScopeConfig:labels:app=istio-pilot,chart=istio,heritage=Tiller,release=istio
+// +cue-gen:ScopeConfig:subresource:status
+// +cue-gen:ScopeConfig:scope:Namespaced
+// +cue-gen:ScopeConfig:resource:categories=alibabacloud-com,istio-alibabacloud-com,shortNames=scp
+// +cue-gen:ScopeConfig:printerColumn:name=Age,type=date,JSONPath=.metadata.creationTimestamp,description="CreationTimestamp is a timestamp
+// representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations.
+// Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+// Populated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
+// +cue-gen:ScopeConfig:preserveUnknownFields:false
+// -->
+//
+// <!-- go code generation tags
+// +kubetype-gen
+// +kubetype-gen:groupVersion=istio.alibabacloud.com/v1beta1
+// +genclient
+// +k8s:deepcopy-gen=true
+// -->
+message ScopeConfig {
+    message RollingUpdate {
+        uint32 batchNum = 1;
+        uint32 batchOrder = 2;
+    }
+    message Scope {
+        k8s.io.apimachinery.pkg.apis.meta.v1.LabelSelector selector = 1;
+        RollingUpdate rollingUpdate = 2;
+    }
+    Scope scope = 1;
+}
+

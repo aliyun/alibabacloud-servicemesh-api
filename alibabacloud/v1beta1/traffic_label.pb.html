@@ -1,0 +1,227 @@
+---
+title: istio.alibabacloud.v1beta1
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+number_of_entries: 4
+---
+<h2 id="TrafficLabel">TrafficLabel</h2>
+<section>
+<p>Configuration affecting traffic label.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficLabel-workload_selector">
+<td><code>workloadSelector</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/networking/sidecar.html#WorkloadSelector">WorkloadSelector</a></code></td>
+<td>
+<p>Criteria used to select the specific set of pods/VMs on which
+this patch configuration should be applied. If omitted, the set
+of patches in this configuration will be applied to all workload
+instances in the same namespace.  If omitted, the <code>EnvoyFilter</code>
+patches will be applied to all workloads in the same
+namespace. If the <code>EnvoyFilter</code> is present in the config root
+namespace, it will be applied to all applicable workloads in any
+namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabel-rules">
+<td><code>rules</code></td>
+<td><code><a href="#TrafficLabelRule">TrafficLabelRule[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabel-hosts">
+<td><code>hosts</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The services to which the Settings should be applied.</p>
+
+<p>For example: foo.bar.svc.cluster.local, *.baz.svc.cluster.local</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TrafficLabelRule">TrafficLabelRule</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficLabelRule-labels">
+<td><code>labels</code></td>
+<td><code><a href="#LabelVar">LabelVar[]</a></code></td>
+<td>
+<p>labels for all protocols</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-attachTo">
+<td><code>attachTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>attach to all protocols</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-protocols">
+<td><code>protocols</code></td>
+<td><code>string</code></td>
+<td>
+<p>protocols on which this rule is applied
+&lsquo;*&rsquo; stands for all protocols
+&ldquo; stands for none</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-http">
+<td><code>http</code></td>
+<td><code><a href="#HTTPLabelRule">HTTPLabelRule[]</a></code></td>
+<td>
+<p>label rule applied to http request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LabelVar">LabelVar</h2>
+<section>
+<p>LabelVar define a label variable</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LabelVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Label name</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelVar-valueFrom">
+<td><code>valueFrom</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>Source for the label&rsquo;s value. The first rule obtained is used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelVar-overwrite">
+<td><code>overwrite</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Overwrite value if exist</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPLabelRule">HTTPLabelRule</h2>
+<section>
+<p>HTTPLabelRule define label rule for http protocols</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPLabelRule-match">
+<td><code>match</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/networking/virtual-service.html#HTTPMatchRequest">HTTPMatchRequest[]</a></code></td>
+<td>
+<p>Match conditions to be satisfied for the rule to be
+activated. All conditions inside a single match block have AND
+semantics, while the list of match blocks have OR semantics. The rule
+is matched if any one of the match blocks succeed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPLabelRule-labels">
+<td><code>labels</code></td>
+<td><code><a href="#LabelVar">LabelVar[]</a></code></td>
+<td>
+<p>labels for http request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPLabelRule-attachTo">
+<td><code>attachTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>attach to http request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>

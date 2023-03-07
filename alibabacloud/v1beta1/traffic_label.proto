@@ -1,0 +1,124 @@
+// Copyright 2020 AliMesh
+//
+
+syntax = "proto3";
+
+import "networking/v1alpha3/virtual_service.proto";
+
+import "networking/v1alpha3/sidecar.proto";
+
+
+
+/*
+apiVersion: istio.alibabacloud.com/v1beta1
+kind: TrafficLabel
+metadata:
+  name: example2
+  namespace: workshop
+spec:
+  workloadSelector:
+    labels:
+      app: test
+  rules:
+  - labels:
+      - name: userdefinelabel1
+        valueFrom:
+        - $localLabel
+        - $getHeader(your-header-key)
+        - $getContext(x-request-id)
+    attachTo:
+    - opentracing
+    protocols: "*"
+  hosts:
+  - "*"
+ */
+
+
+
+
+package istio.alibabacloud.v1beta1;
+
+option go_package = "istio.io/api/alibabacloud/v1beta1";
+
+// Configuration affecting traffic label.
+//
+// <!-- crd generation tags
+// +cue-gen:TrafficLabel:groupName:istio.alibabacloud.com
+// +cue-gen:TrafficLabel:version:v1beta1
+// +cue-gen:TrafficLabel:storageVersion
+// +cue-gen:TrafficLabel:annotations:helm.sh/resource-policy=keep
+// +cue-gen:TrafficLabel:labels:app=istio-pilot,chart=istio,heritage=Tiller,release=istio
+// +cue-gen:TrafficLabel:subresource:status
+// +cue-gen:TrafficLabel:scope:Namespaced
+// +cue-gen:TrafficLabel:resource:categories=alibabacloud-com,istio-alibabacloud-com,shortNames=tl
+// +cue-gen:TrafficLabel:preserveUnknownFields:false
+// -->
+//
+// <!-- go code generation tags
+// +kubetype-gen
+// +kubetype-gen:groupVersion=istio.alibabacloud.com/v1beta1
+// +genclient
+// +k8s:deepcopy-gen=true
+// -->
+message TrafficLabel {
+  // Criteria used to select the specific set of pods/VMs on which
+  // this patch configuration should be applied. If omitted, the set
+  // of patches in this configuration will be applied to all workload
+  // instances in the same namespace.  If omitted, the `EnvoyFilter`
+  // patches will be applied to all workloads in the same
+  // namespace. If the `EnvoyFilter` is present in the config root
+  // namespace, it will be applied to all applicable workloads in any
+  // namespace.
+  istio.networking.v1alpha3.WorkloadSelector workload_selector = 1;
+
+  repeated TrafficLabelRule rules = 2;
+  
+  // The services to which the Settings should be applied.
+  //
+  // For example: foo.bar.svc.cluster.local, *.baz.svc.cluster.local
+  repeated string hosts = 5;
+}
+
+message TrafficLabelRule {
+
+  // labels for all protocols
+  repeated LabelVar labels = 2;
+
+  // attach to all protocols
+  repeated string attachTo = 3;
+
+  // protocols on which this rule is applied
+  // '*' stands for all protocols
+  // '' stands for none
+  string protocols = 4;
+
+  // label rule applied to http request
+  repeated HTTPLabelRule http = 11;
+}
+
+// LabelVar define a label variable
+message LabelVar {
+  // Label name
+  string name = 1;
+
+  // Source for the label's value. The first rule obtained is used.
+  repeated string valueFrom = 2;
+  
+  // Overwrite value if exist
+  bool overwrite = 5;
+}
+
+// HTTPLabelRule define label rule for http protocols
+message HTTPLabelRule {
+  // Match conditions to be satisfied for the rule to be
+  // activated. All conditions inside a single match block have AND
+  // semantics, while the list of match blocks have OR semantics. The rule
+  // is matched if any one of the match blocks succeed.
+  repeated istio.networking.v1alpha3.HTTPMatchRequest match = 1;
+
+  // labels for http request
+  repeated LabelVar labels = 5;
+
+  // attach to http request
+  repeated string attachTo = 6;
+}
