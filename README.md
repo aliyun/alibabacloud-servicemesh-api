@@ -1,6 +1,6 @@
-# The Istio API definitions provided by Alibabacloud Service Mesh (ASM)
+# The Istio API definitions provided by Alibaba Cloud Service Mesh (ASM)
 
-This repository is the Istio API definitions provided by Alibabacloud Service Mesh (ASM), which is compatible with [istio/api](https://github.com/istio/api).
+This repository is the Istio API definitions provided by Alibaba Cloud Service Mesh (ASM), which is compatible with [istio/api](https://github.com/istio/api).
 
 Below is derived from istio community README.
 
