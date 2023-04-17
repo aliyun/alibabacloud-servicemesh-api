@@ -589,6 +589,9 @@ message ProxyConfig {
 
   // Specifies the details of the Private Key Provider configuration for gateway and sidecar proxies.
   PrivateKeyProvider private_key_provider = 38;
+
+  // Boolean flag for enabling/disabling the http2 protocol
+  bool https_http2_disabled = 100;
 }
 
 message RemoteService {
