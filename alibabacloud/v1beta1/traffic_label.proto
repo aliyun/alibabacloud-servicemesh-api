@@ -1,0 +1,119 @@
+// Copyright 2023 Alibaba Cloud Service Mesh
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+syntax = "proto3";
+
+import "networking/v1alpha3/virtual_service.proto";
+
+import "networking/v1alpha3/sidecar.proto";
+
+
+// In the Alibaba Cloud Service Mesh, traffic labeling refers to marking traffic for more detailed
+// traffic control and management. By labeling traffic requests between application services
+// with specific labels, they can be divided into different services or versions, and operations
+// such as traffic control, circuit breaking, and rate limiting can be performed based on the labels.
+//
+// traffic labeling can be set for namespaces and workloads.
+// `TrafficLabel` describes a way of traffic labeling. By defining specific traffic labeling custom resource,
+// traffic labeling can be configured for specific workloads or by namespace.
+
+
+package istio.alibabacloud.v1beta1;
+
+option go_package = "istio.io/api/alibabacloud/v1beta1";
+
+// `TrafficLabel` describes the configuration to apply the traffic label for specific workloads or by namespace.
+//
+// <!-- crd generation tags
+// +cue-gen:TrafficLabel:groupName:istio.alibabacloud.com
+// +cue-gen:TrafficLabel:version:v1beta1
+// +cue-gen:TrafficLabel:storageVersion
+// +cue-gen:TrafficLabel:annotations:helm.sh/resource-policy=keep
+// +cue-gen:TrafficLabel:labels:app=istio-pilot,chart=istio,heritage=Tiller,release=istio
+// +cue-gen:TrafficLabel:subresource:status
+// +cue-gen:TrafficLabel:scope:Namespaced
+// +cue-gen:TrafficLabel:resource:categories=alibabacloud-com,istio-alibabacloud-com,shortNames=tl
+// +cue-gen:TrafficLabel:preserveUnknownFields:false
+// -->
+//
+// <!-- go code generation tags
+// +kubetype-gen
+// +kubetype-gen:groupVersion=istio.alibabacloud.com/v1beta1
+// +genclient
+// +k8s:deepcopy-gen=true
+// -->
+message TrafficLabel {
+  // This refers to the scope of the workload to which the traffic labels will be applied.
+  // The selector determines where the traffic label should be applied.
+  // If not set, the selector will match all workloads in the current namespace.
+  istio.networking.v1alpha3.WorkloadSelector workload_selector = 1;
+
+  // The traffic rules for configuring the tags.
+  repeated TrafficLabelRule rules = 2;
+
+  // The scope of the destination host which the traffic label rules should be applied.
+  // "*" represents all services within the same namespace which the traffic label belongs to.
+  // When short names are used (e.g. "reviews" instead of "reviews.default.svc.cluster.local"),
+  // Istio will interpret the short name based on the namespace of the traffic label rule.
+  // A rule in the "default" namespace containing a host "reviews" will be
+  // interpreted as "reviews.default.svc.cluster.local". _To avoid
+  // potential misconfigurations, it is recommended to always use fully
+  // qualified domain names over short names._
+  repeated string hosts = 5;
+}
+
+// TrafficLabelRule describes the rule configuration of the traffic label.
+message TrafficLabelRule {
+
+  // The labels to be attached
+  repeated LabelVar labels = 2;
+
+  // attach to all protocols
+  repeated string attachTo = 3;
+
+  // protocols on which this rule is applied
+  // '*' stands for all protocols
+  // '' stands for none
+  string protocols = 4;
+
+  // Configuration of specific rules for HTTP request
+  repeated HTTPLabelRule http = 11;
+}
+
+// LabelVar describes the properties of label, e.g. name and value.
+message LabelVar {
+  // The name of label
+  string name = 1;
+
+  // The value of label. The parameter value of valueFrom follows a natural order of priority,
+  // with the tag value first obtained from the first row and only obtained from the second row
+  // when it is not available, and so on.
+  repeated string valueFrom = 2;
+
+  // Overwrite specifies whether the corresponding values of the original request header should be overwritten
+  bool overwrite = 5;
+}
+
+// HTTPLabelRule describes the rule configuration for http protocol
+message HTTPLabelRule {
+  // Match conditions to be satisfied for the rule to be
+  // activated. All conditions inside a single match block have AND
+  // semantics, while the list of match blocks have OR semantics. The rule
+  // is matched if any one of the match blocks succeed.
+  repeated istio.networking.v1alpha3.HTTPMatchRequest match = 1;
+  // labels for http request
+  repeated LabelVar labels = 5;
+  // attach to http request
+  repeated string attachTo = 6;
+}

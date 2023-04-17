@@ -30,6 +30,8 @@ directories:
     - mode: perFile
   extensions/v1alpha1:
     - mode: perFile
+  alibabacloud/v1beta1:
+    - mode: perFile
 
 
 # All is used when generating all types referenced in the above directories to
