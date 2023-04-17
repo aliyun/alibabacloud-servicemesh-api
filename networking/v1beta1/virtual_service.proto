@@ -1304,7 +1304,19 @@ message HTTPRouteDestination {
 
   // Header manipulation rules
   Headers headers = 7;
+
+  // Added by Alibaba Cloud Service Mesh (ASM)
+  HTTPRouteFallback fallback = 30;
+  // End added by Alibaba Cloud Service Mesh (ASM)
 }
+
+// Added by Alibaba Cloud Service Mesh (ASM)
+// Fall back for HTTP Route
+message HTTPRouteFallback {
+  string case = 1;
+  Destination target = 2;
+}
+// End added by Alibaba Cloud Service Mesh (ASM)
 
 // L4 routing rule weighted destination.
 message RouteDestination {

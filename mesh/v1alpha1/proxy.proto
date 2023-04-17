@@ -682,6 +682,9 @@ message ProxyConfig {
     // If IN_MESH, these headers will not be appended to outbound requests from sidecars to services not in-mesh.
     MetadataExchangeHeaders metadata_exchange_headers = 6;
   }
+
+  // Boolean flag for enabling/disabling the http2 protocol
+  bool https_http2_disabled = 100;
 }
 
 message RemoteService {
