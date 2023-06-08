@@ -1636,6 +1636,10 @@
           },
           "privateKeyProvider": {
             "$ref": "#/components/schemas/istio.mesh.v1alpha1.PrivateKeyProvider"
+          },
+          "httpsHttp2Disabled": {
+            "description": "Boolean flag for enabling/disabling the http2 protocol",
+            "type": "boolean"
           }
         },
         "oneOf": [

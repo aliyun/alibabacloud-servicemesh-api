@@ -586,6 +586,21 @@
           },
           "headers": {
             "$ref": "#/components/schemas/istio.networking.v1beta1.Headers"
+          },
+          "fallback": {
+            "$ref": "#/components/schemas/istio.networking.v1beta1.HTTPRouteFallback"
+          }
+        }
+      },
+      "istio.networking.v1beta1.HTTPRouteFallback": {
+        "description": "Added by Alibaba Cloud Service Mesh (ASM) Fall back for HTTP Route",
+        "type": "object",
+        "properties": {
+          "case": {
+            "type": "string"
+          },
+          "target": {
+            "$ref": "#/components/schemas/istio.networking.v1beta1.Destination"
           }
         }
       },

@@ -1,0 +1,277 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "",
+    "version": "v1beta1"
+  },
+  "components": {
+    "schemas": {
+      "istio.alibabacloud.v1beta1.HTTPLabelRule": {
+        "description": "HTTPLabelRule describes the rule configuration for http protocol",
+        "type": "object",
+        "properties": {
+          "match": {
+            "description": "Match conditions to be satisfied for the rule to be activated. All conditions inside a single match block have AND semantics, while the list of match blocks have OR semantics. The rule is matched if any one of the match blocks succeed.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.networking.v1alpha3.HTTPMatchRequest"
+            }
+          },
+          "labels": {
+            "description": "labels for http request",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.alibabacloud.v1beta1.LabelVar"
+            }
+          },
+          "attachTo": {
+            "description": "attach to http request",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "istio.alibabacloud.v1beta1.LabelVar": {
+        "description": "LabelVar describes the properties of label, e.g. name and value.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name of label",
+            "type": "string"
+          },
+          "valueFrom": {
+            "description": "The value of label. The parameter value of valueFrom follows a natural order of priority, with the tag value first obtained from the first row and only obtained from the second row when it is not available, and so on.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "overwrite": {
+            "description": "Overwrite specifies whether the corresponding values of the original request header should be overwritten",
+            "type": "boolean"
+          }
+        }
+      },
+      "istio.alibabacloud.v1beta1.TrafficLabel": {
+        "description": "`TrafficLabel` describes the configuration to apply the traffic label for specific workloads or by namespace.",
+        "type": "object",
+        "properties": {
+          "workloadSelector": {
+            "$ref": "#/components/schemas/istio.networking.v1alpha3.WorkloadSelector"
+          },
+          "rules": {
+            "description": "The traffic rules for configuring the tags.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.alibabacloud.v1beta1.TrafficLabelRule"
+            }
+          },
+          "hosts": {
+            "description": "The scope of the destination host which the traffic label rules should be applied. \"*\" represents all services within the same namespace which the traffic label belongs to. When short names are used (e.g. \"reviews\" instead of \"reviews.default.svc.cluster.local\"), Istio will interpret the short name based on the namespace of the traffic label rule. A rule in the \"default\" namespace containing a host \"reviews\" will be interpreted as \"reviews.default.svc.cluster.local\". _To avoid potential misconfigurations, it is recommended to always use fully qualified domain names over short names._",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "istio.alibabacloud.v1beta1.TrafficLabelRule": {
+        "description": "TrafficLabelRule describes the rule configuration of the traffic label.",
+        "type": "object",
+        "properties": {
+          "labels": {
+            "description": "The labels to be attached",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.alibabacloud.v1beta1.LabelVar"
+            }
+          },
+          "attachTo": {
+            "description": "attach to all protocols",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "protocols": {
+            "description": "protocols on which this rule is applied '*' stands for all protocols '' stands for none",
+            "type": "string"
+          },
+          "http": {
+            "description": "Configuration of specific rules for HTTP request",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.alibabacloud.v1beta1.HTTPLabelRule"
+            }
+          }
+        }
+      },
+      "istio.networking.v1alpha3.HTTPMatchRequest": {
+        "description": "HttpMatchRequest specifies a set of criterion to be met in order for the rule to be applied to the HTTP request. For example, the following restricts the rule to match only requests where the URL path starts with /ratings/v2/ and the request contains a custom `end-user` header with value `jason`.",
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The name assigned to a match. The match's name will be concatenated with the parent route's name and will be logged in the access logs for requests matching this route.",
+            "type": "string"
+          },
+          "uri": {
+            "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+          },
+          "scheme": {
+            "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+          },
+          "method": {
+            "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+          },
+          "authority": {
+            "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+          },
+          "headers": {
+            "description": "The header keys must be lowercase and use hyphen as the separator, e.g. _x-request-id_.",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+            }
+          },
+          "port": {
+            "description": "Specifies the ports on the host that is being addressed. Many services only expose a single port or label ports with the protocols they support, in these cases it is not required to explicitly select the port.",
+            "type": "integer"
+          },
+          "sourceLabels": {
+            "description": "One or more labels that constrain the applicability of a rule to source (client) workloads with the given labels. If the VirtualService has a list of gateways specified in the top-level `gateways` field, it must include the reserved gateway `mesh` for this field to be applicable.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "gateways": {
+            "description": "Names of gateways where the rule should be applied. Gateway names in the top-level `gateways` field of the VirtualService (if any) are overridden. The gateway match is independent of sourceLabels.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "queryParams": {
+            "description": "Query parameters for matching.",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+            }
+          },
+          "ignoreUriCase": {
+            "description": "Flag to specify whether the URI matching should be case-insensitive.",
+            "type": "boolean"
+          },
+          "withoutHeaders": {
+            "description": "withoutHeader has the same syntax with the header, but has opposite meaning. If a header is matched with a matching rule among withoutHeader, the traffic becomes not matched one.",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/istio.networking.v1alpha3.StringMatch"
+            }
+          },
+          "sourceNamespace": {
+            "description": "Source namespace constraining the applicability of a rule to workloads in that namespace. If the VirtualService has a list of gateways specified in the top-level `gateways` field, it must include the reserved gateway `mesh` for this field to be applicable.",
+            "type": "string"
+          },
+          "statPrefix": {
+            "description": "The human readable prefix to use when emitting statistics for this route. The statistics are generated with prefix route.\u003cstat_prefix\u003e. This should be set for highly critical routes that one wishes to get \"per-route\" statistics on. This prefix is only for proxy-level statistics (envoy_*) and not service-level (istio_*) statistics. Refer to https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#envoy-v3-api-field-config-route-v3-route-stat-prefix for statistics that are generated when this is configured.",
+            "type": "string"
+          }
+        }
+      },
+      "istio.networking.v1alpha3.StringMatch": {
+        "description": "Describes how to match a given string in HTTP headers. Match is case-sensitive.",
+        "type": "object",
+        "oneOf": [
+          {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "exact"
+                  ],
+                  "properties": {
+                    "exact": {
+                      "description": "exact string match",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "prefix"
+                  ],
+                  "properties": {
+                    "prefix": {
+                      "description": "prefix-based match",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "required": [
+                    "regex"
+                  ],
+                  "properties": {
+                    "regex": {
+                      "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "required": [
+              "exact"
+            ],
+            "properties": {
+              "exact": {
+                "description": "exact string match",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": [
+              "prefix"
+            ],
+            "properties": {
+              "prefix": {
+                "description": "prefix-based match",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "required": [
+              "regex"
+            ],
+            "properties": {
+              "regex": {
+                "description": "RE2 style regex-based match (https://github.com/google/re2/wiki/Syntax).",
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      "istio.networking.v1alpha3.WorkloadSelector": {
+        "description": "`WorkloadSelector` specifies the criteria used to determine if the `Gateway`, `Sidecar`, `EnvoyFilter`, `ServiceEntry`, or `DestinationRule` configuration can be applied to a proxy. The matching criteria includes the metadata associated with a proxy, workload instance info such as labels attached to the pod/VM, or any other info that the proxy provides to Istio during the initial handshake. If multiple conditions are specified, all conditions need to match in order for the workload instance to be selected. Currently, only label based selection mechanism is supported.",
+        "type": "object",
+        "properties": {
+          "labels": {
+            "description": "One or more labels that indicate a specific set of pods/VMs on which the configuration should be applied. The scope of label search is restricted to the configuration namespace in which the the resource is present.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
