@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 23
+number_of_entries: 26
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -576,6 +576,15 @@ No
 <tr id="LoadBalancerSettings-consistent_hash" class="oneof">
 <td><code>consistentHash</code></td>
 <td><code><a href="#LoadBalancerSettings-ConsistentHashLB">ConsistentHashLB (oneof)</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-lb_subset_config" class="oneof">
+<td><code>lbSubsetConfig</code></td>
+<td><code><a href="#LoadBalancerSettings-LbSubsetConfig">LbSubsetConfig (oneof)</a></code></td>
 <td>
 </td>
 <td>
@@ -1516,6 +1525,50 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="LoadBalancerSettings-LbSubsetConfig">LoadBalancerSettings.LbSubsetConfig</h2>
+<section>
+<p>&mdash; added by asm &mdash;</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-LbSubsetConfig-fallback_policy">
+<td><code>fallbackPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-LbSubsetConfig-FallbackPolicy">FallbackPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-default_subset">
+<td><code>defaultSubset</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-subset_selectors">
+<td><code>subsetSelectors</code></td>
+<td><code><a href="#LoadBalancerSettings-LbSubsetConfig-SubsetSelector">SubsetSelector[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB-RingHash">LoadBalancerSettings.ConsistentHashLB.RingHash</h2>
 <section>
 <table class="message-fields">
@@ -1621,6 +1674,39 @@ No
 </td>
 <td>
 Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-LbSubsetConfig-SubsetSelector">LoadBalancerSettings.LbSubsetConfig.SubsetSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-LbSubsetConfig-SubsetSelector-fallback_policy">
+<td><code>fallbackPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-LbSubsetConfig-FallbackPolicy">FallbackPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-SubsetSelector-keys">
+<td><code>keys</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1973,6 +2059,39 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-LbSubsetConfig-FallbackPolicy">LoadBalancerSettings.LbSubsetConfig.FallbackPolicy</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-LbSubsetConfig-FallbackPolicy-UNSPECIFIED">
+<td><code>UNSPECIFIED</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-FallbackPolicy-NO_FALLBACK">
+<td><code>NO_FALLBACK</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-FallbackPolicy-ANY_ENDPOINT">
+<td><code>ANY_ENDPOINT</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-LbSubsetConfig-FallbackPolicy-DEFAULT_SUBSET">
+<td><code>DEFAULT_SUBSET</code></td>
+<td>
 </td>
 </tr>
 </tbody>

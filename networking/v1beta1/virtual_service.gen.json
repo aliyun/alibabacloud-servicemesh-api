@@ -569,6 +569,13 @@
           },
           "headers": {
             "$ref": "#/components/schemas/istio.networking.v1beta1.Headers"
+          },
+          "headerToSubsetKey": {
+            "description": "Next available field number: 22",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.networking.v1beta1.HeaderToSubsetKey"
+            }
           }
         }
       },
@@ -601,6 +608,20 @@
           },
           "target": {
             "$ref": "#/components/schemas/istio.networking.v1beta1.Destination"
+          }
+        }
+      },
+      "istio.networking.v1beta1.HeaderToSubsetKey": {
+        "type": "object",
+        "properties": {
+          "header": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "defaultValue": {
+            "type": "string"
           }
         }
       },
