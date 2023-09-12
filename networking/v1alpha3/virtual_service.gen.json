@@ -569,6 +569,27 @@
           },
           "headers": {
             "$ref": "#/components/schemas/istio.networking.v1alpha3.Headers"
+          },
+          "headerToDynamicSubsetKey": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/istio.networking.v1alpha3.HTTPRoute.HeaderToDynamicSubsetKey"
+            }
+          }
+        }
+      },
+      "istio.networking.v1alpha3.HTTPRoute.HeaderToDynamicSubsetKey": {
+        "description": "--- added by asm ---",
+        "type": "object",
+        "properties": {
+          "header": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "defaultValue": {
+            "type": "string"
           }
         }
       },

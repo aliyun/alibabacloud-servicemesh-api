@@ -645,6 +645,8 @@ spec:
                                       minimumRingSize: {}
                                 required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - properties:
@@ -684,6 +686,8 @@ spec:
                                   minimumRingSize: {}
                             required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               properties:
@@ -728,6 +732,36 @@ spec:
                                 useSourceIp:
                                   description: Hash based on the source IP address.
                                   type: boolean
+                              type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
                               type: object
                             localityLbSetting:
                               properties:
@@ -941,6 +975,8 @@ spec:
                                             minimumRingSize: {}
                                       required:
                                       - consistentHash
+                                    - required:
+                                      - dynamicSubset
                                 - required:
                                   - simple
                                 - properties:
@@ -980,6 +1016,8 @@ spec:
                                         minimumRingSize: {}
                                   required:
                                   - consistentHash
+                                - required:
+                                  - dynamicSubset
                                 properties:
                                   consistentHash:
                                     properties:
@@ -1027,6 +1065,36 @@ spec:
                                       useSourceIp:
                                         description: Hash based on the source IP address.
                                         type: boolean
+                                    type: object
+                                  dynamicSubset:
+                                    properties:
+                                      defaultSubset:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      subsetSelectors:
+                                        items:
+                                          properties:
+                                            fallbackPolicy:
+                                              enum:
+                                              - UNSPECIFIED
+                                              - NO_FALLBACK
+                                              - ANY_ENDPOINT
+                                              - DEFAULT_SUBSET
+                                              type: string
+                                            keys:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
                                     type: object
                                   localityLbSetting:
                                     properties:
@@ -1327,6 +1395,8 @@ spec:
                                 minimumRingSize: {}
                           required:
                           - consistentHash
+                        - required:
+                          - dynamicSubset
                     - required:
                       - simple
                     - properties:
@@ -1366,6 +1436,8 @@ spec:
                             minimumRingSize: {}
                       required:
                       - consistentHash
+                    - required:
+                      - dynamicSubset
                     properties:
                       consistentHash:
                         properties:
@@ -1409,6 +1481,36 @@ spec:
                           useSourceIp:
                             description: Hash based on the source IP address.
                             type: boolean
+                        type: object
+                      dynamicSubset:
+                        properties:
+                          defaultSubset:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          fallbackPolicy:
+                            enum:
+                            - UNSPECIFIED
+                            - NO_FALLBACK
+                            - ANY_ENDPOINT
+                            - DEFAULT_SUBSET
+                            type: string
+                          subsetSelectors:
+                            items:
+                              properties:
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                keys:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
                         type: object
                       localityLbSetting:
                         properties:
@@ -1617,6 +1719,8 @@ spec:
                                       minimumRingSize: {}
                                 required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - properties:
@@ -1656,6 +1760,8 @@ spec:
                                   minimumRingSize: {}
                             required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               properties:
@@ -1700,6 +1806,36 @@ spec:
                                 useSourceIp:
                                   description: Hash based on the source IP address.
                                   type: boolean
+                              type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
                               type: object
                             localityLbSetting:
                               properties:
@@ -2054,6 +2190,8 @@ spec:
                                       minimumRingSize: {}
                                 required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - properties:
@@ -2093,6 +2231,8 @@ spec:
                                   minimumRingSize: {}
                             required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               properties:
@@ -2137,6 +2277,36 @@ spec:
                                 useSourceIp:
                                   description: Hash based on the source IP address.
                                   type: boolean
+                              type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
                               type: object
                             localityLbSetting:
                               properties:
@@ -2350,6 +2520,8 @@ spec:
                                             minimumRingSize: {}
                                       required:
                                       - consistentHash
+                                    - required:
+                                      - dynamicSubset
                                 - required:
                                   - simple
                                 - properties:
@@ -2389,6 +2561,8 @@ spec:
                                         minimumRingSize: {}
                                   required:
                                   - consistentHash
+                                - required:
+                                  - dynamicSubset
                                 properties:
                                   consistentHash:
                                     properties:
@@ -2436,6 +2610,36 @@ spec:
                                       useSourceIp:
                                         description: Hash based on the source IP address.
                                         type: boolean
+                                    type: object
+                                  dynamicSubset:
+                                    properties:
+                                      defaultSubset:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      subsetSelectors:
+                                        items:
+                                          properties:
+                                            fallbackPolicy:
+                                              enum:
+                                              - UNSPECIFIED
+                                              - NO_FALLBACK
+                                              - ANY_ENDPOINT
+                                              - DEFAULT_SUBSET
+                                              type: string
+                                            keys:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
                                     type: object
                                   localityLbSetting:
                                     properties:
@@ -2736,6 +2940,8 @@ spec:
                                 minimumRingSize: {}
                           required:
                           - consistentHash
+                        - required:
+                          - dynamicSubset
                     - required:
                       - simple
                     - properties:
@@ -2775,6 +2981,8 @@ spec:
                             minimumRingSize: {}
                       required:
                       - consistentHash
+                    - required:
+                      - dynamicSubset
                     properties:
                       consistentHash:
                         properties:
@@ -2818,6 +3026,36 @@ spec:
                           useSourceIp:
                             description: Hash based on the source IP address.
                             type: boolean
+                        type: object
+                      dynamicSubset:
+                        properties:
+                          defaultSubset:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          fallbackPolicy:
+                            enum:
+                            - UNSPECIFIED
+                            - NO_FALLBACK
+                            - ANY_ENDPOINT
+                            - DEFAULT_SUBSET
+                            type: string
+                          subsetSelectors:
+                            items:
+                              properties:
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                keys:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
                         type: object
                       localityLbSetting:
                         properties:
@@ -3026,6 +3264,8 @@ spec:
                                       minimumRingSize: {}
                                 required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - properties:
@@ -3065,6 +3305,8 @@ spec:
                                   minimumRingSize: {}
                             required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               properties:
@@ -3109,6 +3351,36 @@ spec:
                                 useSourceIp:
                                   description: Hash based on the source IP address.
                                   type: boolean
+                              type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
                               type: object
                             localityLbSetting:
                               properties:
@@ -4765,6 +5037,17 @@ spec:
                               type: object
                           type: object
                       type: object
+                    headerToDynamicSubsetKey:
+                      items:
+                        properties:
+                          defaultValue:
+                            type: string
+                          header:
+                            type: string
+                          key:
+                            type: string
+                        type: object
+                      type: array
                     headers:
                       properties:
                         request:
@@ -5570,6 +5853,17 @@ spec:
                               type: object
                           type: object
                       type: object
+                    headerToDynamicSubsetKey:
+                      items:
+                        properties:
+                          defaultValue:
+                            type: string
+                          header:
+                            type: string
+                          key:
+                            type: string
+                        type: object
+                      type: array
                     headers:
                       properties:
                         request:

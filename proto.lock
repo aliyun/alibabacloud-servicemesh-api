@@ -36723,6 +36723,26 @@
             ]
           },
           {
+            "name": "DynamicSubsetLB.FallbackPolicy",
+            "enum_fields": [
+              {
+                "name": "UNSPECIFIED"
+              },
+              {
+                "name": "NO_FALLBACK",
+                "integer": 1
+              },
+              {
+                "name": "ANY_ENDPOINT",
+                "integer": 2
+              },
+              {
+                "name": "DEFAULT_SUBSET",
+                "integer": 3
+              }
+            ]
+          },
+          {
             "name": "HTTPSettings.H2UpgradePolicy",
             "enum_fields": [
               {
@@ -36943,6 +36963,11 @@
                 "type": "ConsistentHashLB"
               },
               {
+                "id": 30000,
+                "name": "dynamic_subset",
+                "type": "DynamicSubsetLB"
+              },
+              {
                 "id": 3,
                 "name": "locality_lb_setting",
                 "type": "LocalityLoadBalancerSetting"
@@ -37049,6 +37074,50 @@
                             "value": "REQUIRED"
                           }
                         ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "DynamicSubsetLB",
+                "fields": [
+                  {
+                    "id": 1,
+                    "name": "fallback_policy",
+                    "type": "FallbackPolicy"
+                  },
+                  {
+                    "id": 3,
+                    "name": "subset_selectors",
+                    "type": "SubsetSelector",
+                    "is_repeated": true
+                  }
+                ],
+                "maps": [
+                  {
+                    "key_type": "string",
+                    "field": {
+                      "id": 2,
+                      "name": "default_subset",
+                      "type": "string"
+                    }
+                  }
+                ],
+                "messages": [
+                  {
+                    "name": "SubsetSelector",
+                    "fields": [
+                      {
+                        "id": 1,
+                        "name": "fallback_policy",
+                        "type": "FallbackPolicy"
+                      },
+                      {
+                        "id": 2,
+                        "name": "keys",
+                        "type": "string",
+                        "is_repeated": true
                       }
                     ]
                   }
@@ -38676,6 +38745,12 @@
                 "id": 16,
                 "name": "headers",
                 "type": "Headers"
+              },
+              {
+                "id": 30000,
+                "name": "header_to_dynamic_subset_key",
+                "type": "HeaderToDynamicSubsetKey",
+                "is_repeated": true
               }
             ],
             "reserved_ids": [
@@ -38693,6 +38768,28 @@
               "append_response_headers",
               "remove_request_headers",
               "append_request_headers"
+            ],
+            "messages": [
+              {
+                "name": "HeaderToDynamicSubsetKey",
+                "fields": [
+                  {
+                    "id": 1,
+                    "name": "header",
+                    "type": "string"
+                  },
+                  {
+                    "id": 2,
+                    "name": "key",
+                    "type": "string"
+                  },
+                  {
+                    "id": 3,
+                    "name": "defaultValue",
+                    "type": "string"
+                  }
+                ]
+              }
             ]
           },
           {
@@ -39706,6 +39803,26 @@
             ]
           },
           {
+            "name": "DynamicSubsetLB.FallbackPolicy",
+            "enum_fields": [
+              {
+                "name": "UNSPECIFIED"
+              },
+              {
+                "name": "NO_FALLBACK",
+                "integer": 1
+              },
+              {
+                "name": "ANY_ENDPOINT",
+                "integer": 2
+              },
+              {
+                "name": "DEFAULT_SUBSET",
+                "integer": 3
+              }
+            ]
+          },
+          {
             "name": "HTTPSettings.H2UpgradePolicy",
             "enum_fields": [
               {
@@ -39926,6 +40043,11 @@
                 "type": "ConsistentHashLB"
               },
               {
+                "id": 30000,
+                "name": "dynamic_subset",
+                "type": "DynamicSubsetLB"
+              },
+              {
                 "id": 3,
                 "name": "locality_lb_setting",
                 "type": "LocalityLoadBalancerSetting"
@@ -40032,6 +40154,50 @@
                             "value": "REQUIRED"
                           }
                         ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "DynamicSubsetLB",
+                "fields": [
+                  {
+                    "id": 1,
+                    "name": "fallback_policy",
+                    "type": "FallbackPolicy"
+                  },
+                  {
+                    "id": 3,
+                    "name": "subset_selectors",
+                    "type": "SubsetSelector",
+                    "is_repeated": true
+                  }
+                ],
+                "maps": [
+                  {
+                    "key_type": "string",
+                    "field": {
+                      "id": 2,
+                      "name": "default_subset",
+                      "type": "string"
+                    }
+                  }
+                ],
+                "messages": [
+                  {
+                    "name": "SubsetSelector",
+                    "fields": [
+                      {
+                        "id": 1,
+                        "name": "fallback_policy",
+                        "type": "FallbackPolicy"
+                      },
+                      {
+                        "id": 2,
+                        "name": "keys",
+                        "type": "string",
+                        "is_repeated": true
                       }
                     ]
                   }
@@ -41240,6 +41406,12 @@
                 "id": 16,
                 "name": "headers",
                 "type": "Headers"
+              },
+              {
+                "id": 30000,
+                "name": "header_to_dynamic_subset_key",
+                "type": "HeaderToDynamicSubsetKey",
+                "is_repeated": true
               }
             ],
             "reserved_ids": [
@@ -41257,6 +41429,28 @@
               "append_response_headers",
               "remove_request_headers",
               "append_request_headers"
+            ],
+            "messages": [
+              {
+                "name": "HeaderToDynamicSubsetKey",
+                "fields": [
+                  {
+                    "id": 1,
+                    "name": "header",
+                    "type": "string"
+                  },
+                  {
+                    "id": 2,
+                    "name": "key",
+                    "type": "string"
+                  },
+                  {
+                    "id": 3,
+                    "name": "defaultValue",
+                    "type": "string"
+                  }
+                ]
+              }
             ]
           },
           {
