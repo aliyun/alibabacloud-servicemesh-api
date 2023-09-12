@@ -657,6 +657,13 @@ message HTTPRoute {
 
   // $hide_from_docs
   // Next available field number: 22
+  repeated HeaderToSubsetKey header_to_subset_key = 30000;
+}
+
+message HeaderToSubsetKey {
+  string header = 1;
+  string key = 2;
+  string defaultValue = 3;
 }
 
 
