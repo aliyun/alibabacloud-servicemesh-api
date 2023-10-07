@@ -602,6 +602,13 @@ message LoadBalancerSettings {
       repeated string keys = 2;
     };
     repeated SubsetSelector subset_selectors = 3;
+    enum LbPolicy {
+      UNDEFINED = 0;
+      RANDOM = 1;
+      ROUND_ROBIN = 2;
+      LEAST_REQUEST = 3;
+    };
+    LbPolicy lb_policy = 4;
   }
   // --- end added by asm ---
 
