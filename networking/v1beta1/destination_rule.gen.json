@@ -479,6 +479,9 @@
             "items": {
               "$ref": "#/components/schemas/istio.networking.v1beta1.LoadBalancerSettings.DynamicSubsetLB.SubsetSelector"
             }
+          },
+          "lbPolicy": {
+            "$ref": "#/components/schemas/istio.networking.v1beta1.LoadBalancerSettings.DynamicSubsetLB.LbPolicy"
           }
         }
       },
@@ -489,6 +492,15 @@
           "NO_FALLBACK",
           "ANY_ENDPOINT",
           "DEFAULT_SUBSET"
+        ]
+      },
+      "istio.networking.v1beta1.LoadBalancerSettings.DynamicSubsetLB.LbPolicy": {
+        "type": "string",
+        "enum": [
+          "UNDEFINED",
+          "RANDOM",
+          "ROUND_ROBIN",
+          "LEAST_REQUEST"
         ]
       },
       "istio.networking.v1beta1.LoadBalancerSettings.DynamicSubsetLB.SubsetSelector": {

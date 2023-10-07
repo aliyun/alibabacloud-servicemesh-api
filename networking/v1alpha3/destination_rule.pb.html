@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 26
+number_of_entries: 27
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -1568,6 +1568,15 @@ No
 No
 </td>
 </tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-lb_policy">
+<td><code>lbPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LbPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -2093,6 +2102,39 @@ No
 </tr>
 <tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-DEFAULT_SUBSET">
 <td><code>DEFAULT_SUBSET</code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LoadBalancerSettings.DynamicSubsetLB.LbPolicy</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-RANDOM">
+<td><code>RANDOM</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-ROUND_ROBIN">
+<td><code>ROUND_ROBIN</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-LEAST_REQUEST">
+<td><code>LEAST_REQUEST</code></td>
 <td>
 </td>
 </tr>

@@ -36743,6 +36743,26 @@
             ]
           },
           {
+            "name": "DynamicSubsetLB.LbPolicy",
+            "enum_fields": [
+              {
+                "name": "UNDEFINED"
+              },
+              {
+                "name": "RANDOM",
+                "integer": 1
+              },
+              {
+                "name": "ROUND_ROBIN",
+                "integer": 2
+              },
+              {
+                "name": "LEAST_REQUEST",
+                "integer": 3
+              }
+            ]
+          },
+          {
             "name": "HTTPSettings.H2UpgradePolicy",
             "enum_fields": [
               {
@@ -37092,6 +37112,11 @@
                     "name": "subset_selectors",
                     "type": "SubsetSelector",
                     "is_repeated": true
+                  },
+                  {
+                    "id": 4,
+                    "name": "lb_policy",
+                    "type": "LbPolicy"
                   }
                 ],
                 "maps": [
@@ -39823,6 +39848,26 @@
             ]
           },
           {
+            "name": "DynamicSubsetLB.LbPolicy",
+            "enum_fields": [
+              {
+                "name": "UNDEFINED"
+              },
+              {
+                "name": "RANDOM",
+                "integer": 1
+              },
+              {
+                "name": "ROUND_ROBIN",
+                "integer": 2
+              },
+              {
+                "name": "LEAST_REQUEST",
+                "integer": 3
+              }
+            ]
+          },
+          {
             "name": "HTTPSettings.H2UpgradePolicy",
             "enum_fields": [
               {
@@ -40172,6 +40217,11 @@
                     "name": "subset_selectors",
                     "type": "SubsetSelector",
                     "is_repeated": true
+                  },
+                  {
+                    "id": 4,
+                    "name": "lb_policy",
+                    "type": "LbPolicy"
                   }
                 ],
                 "maps": [

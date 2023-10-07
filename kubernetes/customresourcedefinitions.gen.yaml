@@ -746,6 +746,13 @@ spec:
                                   - ANY_ENDPOINT
                                   - DEFAULT_SUBSET
                                   type: string
+                                lbPolicy:
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
                                 subsetSelectors:
                                   items:
                                     properties:
@@ -1078,6 +1085,13 @@ spec:
                                         - NO_FALLBACK
                                         - ANY_ENDPOINT
                                         - DEFAULT_SUBSET
+                                        type: string
+                                      lbPolicy:
+                                        enum:
+                                        - UNDEFINED
+                                        - RANDOM
+                                        - ROUND_ROBIN
+                                        - LEAST_REQUEST
                                         type: string
                                       subsetSelectors:
                                         items:
@@ -1495,6 +1509,13 @@ spec:
                             - ANY_ENDPOINT
                             - DEFAULT_SUBSET
                             type: string
+                          lbPolicy:
+                            enum:
+                            - UNDEFINED
+                            - RANDOM
+                            - ROUND_ROBIN
+                            - LEAST_REQUEST
+                            type: string
                           subsetSelectors:
                             items:
                               properties:
@@ -1819,6 +1840,13 @@ spec:
                                   - NO_FALLBACK
                                   - ANY_ENDPOINT
                                   - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
                                   type: string
                                 subsetSelectors:
                                   items:
@@ -2291,6 +2319,13 @@ spec:
                                   - ANY_ENDPOINT
                                   - DEFAULT_SUBSET
                                   type: string
+                                lbPolicy:
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
                                 subsetSelectors:
                                   items:
                                     properties:
@@ -2623,6 +2658,13 @@ spec:
                                         - NO_FALLBACK
                                         - ANY_ENDPOINT
                                         - DEFAULT_SUBSET
+                                        type: string
+                                      lbPolicy:
+                                        enum:
+                                        - UNDEFINED
+                                        - RANDOM
+                                        - ROUND_ROBIN
+                                        - LEAST_REQUEST
                                         type: string
                                       subsetSelectors:
                                         items:
@@ -3040,6 +3082,13 @@ spec:
                             - ANY_ENDPOINT
                             - DEFAULT_SUBSET
                             type: string
+                          lbPolicy:
+                            enum:
+                            - UNDEFINED
+                            - RANDOM
+                            - ROUND_ROBIN
+                            - LEAST_REQUEST
+                            type: string
                           subsetSelectors:
                             items:
                               properties:
@@ -3364,6 +3413,13 @@ spec:
                                   - NO_FALLBACK
                                   - ANY_ENDPOINT
                                   - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
                                   type: string
                                 subsetSelectors:
                                   items:
