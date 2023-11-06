@@ -588,10 +588,38 @@ message LoadBalancerSettings {
   // look into enabling Priotity based load balancing for spilling over
   // from one priority pool to another. --)
 
+  // --- added by asm ---
+  message DynamicSubsetLB {
+    enum FallbackPolicy {
+      UNSPECIFIED = 0;
+      NO_FALLBACK = 1;
+      ANY_ENDPOINT = 2;
+      DEFAULT_SUBSET = 3;
+    };
+    FallbackPolicy fallback_policy = 1;
+    map<string, string> default_subset = 2;
+    message SubsetSelector {
+      FallbackPolicy fallback_policy = 1;
+      repeated string keys = 2;
+    };
+    repeated SubsetSelector subset_selectors = 3;
+    enum LbPolicy {
+      UNDEFINED = 0;
+      RANDOM = 1;
+      ROUND_ROBIN = 2;
+      LEAST_REQUEST = 3;
+    };
+    LbPolicy lb_policy = 4;
+  }
+  // --- end added by asm ---
+
   // Upstream load balancing policy.
   oneof lb_policy {
     SimpleLB simple = 1;
     ConsistentHashLB consistent_hash = 2;
+    // --- added by asm ---
+    DynamicSubsetLB dynamic_subset = 30000;
+    // --- end added by asm ---
   }
 
   // Locality load balancer settings, this will override mesh wide settings in entirety, meaning no merging would be performed
