@@ -666,7 +666,17 @@ message HTTPRoute {
 
   // $hide_from_docs
   // Next available field number: 23
+
+  // --- added by asm ---
+  message HeaderToDynamicSubsetKey {
+    string header = 1;
+    string key = 2;
+    string defaultValue = 3;
+  }
+  repeated HeaderToDynamicSubsetKey header_to_dynamic_subset_key = 30000;
+  // --- end added by asm ---
 }
+
 
 
 // Describes the delegate VirtualService.
