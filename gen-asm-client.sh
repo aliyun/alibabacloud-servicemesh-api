@@ -1,0 +1,1 @@
+client-gen --clientset-name clientset -h ./hack/boilerplate.go.txt --input-base istio.io/api --input-dirs alibabacloud-servicemesh/v1 --input alibabacloud-servicemesh/v1 --output-base ../alibabacloud-servicemesh-go-client --output-package asmpkg
