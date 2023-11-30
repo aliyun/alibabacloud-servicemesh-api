@@ -16,9 +16,10 @@ package v1beta1
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/gogo/protobuf/proto"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"math"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -95,6 +96,9 @@ type ASMCircuitBreakerStatus struct {
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
 // ASMCircuitBreaker is the Schema for the asmcircuitbreaker API
 type ASMCircuitBreaker struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -105,6 +109,7 @@ type ASMCircuitBreaker struct {
 }
 
 //+kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // ASMCircuitBreakerList contains a list of ASMCircuitBreaker
 type ASMCircuitBreakerList struct {
