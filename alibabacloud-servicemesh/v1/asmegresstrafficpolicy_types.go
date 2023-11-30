@@ -98,6 +98,9 @@ type EgressTrafficPolicyStatus struct {
 //+kubebuilder:printcolumn:name="Age",type=date,JSONPath=`.metadata.creationTimestamp`
 // +kubebuilder:storageversion
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
 // ASMEgressTrafficPolicy is the Schema for the ASMEgressTrafficPolicy API
 type ASMEgressTrafficPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -109,6 +112,7 @@ type ASMEgressTrafficPolicy struct {
 
 //+kubebuilder:object:root=true
 
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // ASMEgressTrafficPolicyList contains a list of ASMEgressTrafficPolicy
 type ASMEgressTrafficPolicyList struct {
 	metav1.TypeMeta `json:",inline"`

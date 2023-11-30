@@ -65,6 +65,9 @@ type ASMAdaptiveConcurrencyStatus struct {
 //+kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
 // ASMAdaptiveConcurrency is the Schema for the asmadaptiveconcurrencies API
 type ASMAdaptiveConcurrency struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -75,6 +78,7 @@ type ASMAdaptiveConcurrency struct {
 }
 
 //+kubebuilder:object:root=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // ASMAdaptiveConcurrencyList contains a list of ASMAdaptiveConcurrency
 type ASMAdaptiveConcurrencyList struct {
