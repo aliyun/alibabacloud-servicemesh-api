@@ -1,1 +1,2 @@
-client-gen --clientset-name clientset -h ./hack/boilerplate.go.txt --input-base istio.io/api --input-dirs alibabacloud-servicemesh/v1 --input alibabacloud-servicemesh/v1 --output-base ../alibabacloud-servicemesh-go-client --output-package asmpkg
+client-gen --clientset-name clientset -h ./hack/boilerplate.go.txt --input-base istio.io/api --input-dirs alibabacloud-servicemesh/v1 --input alibabacloud-servicemesh/v1 --output-base ../alibabacloud-servicemesh-go-client --output-package asm/pkg
+find ../alibabacloud-servicemesh-go-client/asm/pkg -type f -exec sed -i '' 's#asm/pkg/#istio.io/client-go/asm/pkg/#g' {} +
