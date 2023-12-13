@@ -116,6 +116,28 @@ func (this *LoadBalancerSettings_ConsistentHashLB_HTTPCookie) UnmarshalJSON(b []
 	return DestinationRuleUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for LoadBalancerSettings_DynamicSubsetLB
+func (this *LoadBalancerSettings_DynamicSubsetLB) MarshalJSON() ([]byte, error) {
+	str, err := DestinationRuleMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for LoadBalancerSettings_DynamicSubsetLB
+func (this *LoadBalancerSettings_DynamicSubsetLB) UnmarshalJSON(b []byte) error {
+	return DestinationRuleUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for LoadBalancerSettings_DynamicSubsetLB_SubsetSelector
+func (this *LoadBalancerSettings_DynamicSubsetLB_SubsetSelector) MarshalJSON() ([]byte, error) {
+	str, err := DestinationRuleMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for LoadBalancerSettings_DynamicSubsetLB_SubsetSelector
+func (this *LoadBalancerSettings_DynamicSubsetLB_SubsetSelector) UnmarshalJSON(b []byte) error {
+	return DestinationRuleUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for ConnectionPoolSettings
 func (this *ConnectionPoolSettings) MarshalJSON() ([]byte, error) {
 	str, err := DestinationRuleMarshaler.MarshalToString(this)
