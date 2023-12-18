@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 23
+number_of_entries: 27
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -577,6 +577,17 @@ No
 <td><code>consistentHash</code></td>
 <td><code><a href="#LoadBalancerSettings-ConsistentHashLB">ConsistentHashLB (oneof)</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-dynamic_subset" class="oneof">
+<td><code>dynamicSubset</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB">DynamicSubsetLB (oneof)</a></code></td>
+<td>
+<p>&mdash; added by asm &mdash;</p>
+
 </td>
 <td>
 No
@@ -1516,6 +1527,59 @@ No
 </tbody>
 </table>
 </section>
+<h2 id="LoadBalancerSettings-DynamicSubsetLB">LoadBalancerSettings.DynamicSubsetLB</h2>
+<section>
+<p>&mdash; added by asm &mdash;</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-fallback_policy">
+<td><code>fallbackPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">FallbackPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-default_subset">
+<td><code>defaultSubset</code></td>
+<td><code>map&lt;string,&nbsp;string&gt;</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-subset_selectors">
+<td><code>subsetSelectors</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-SubsetSelector">SubsetSelector[]</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-lb_policy">
+<td><code>lbPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LbPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h2 id="LoadBalancerSettings-ConsistentHashLB-RingHash">LoadBalancerSettings.ConsistentHashLB.RingHash</h2>
 <section>
 <table class="message-fields">
@@ -1621,6 +1685,39 @@ No
 </td>
 <td>
 Yes
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector">LoadBalancerSettings.DynamicSubsetLB.SubsetSelector</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-fallback_policy">
+<td><code>fallbackPolicy</code></td>
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">FallbackPolicy</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-keys">
+<td><code>keys</code></td>
+<td><code>string[]</code></td>
+<td>
+</td>
+<td>
+No
 </td>
 </tr>
 </tbody>
@@ -1973,6 +2070,72 @@ No
 </td>
 <td>
 No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">LoadBalancerSettings.DynamicSubsetLB.FallbackPolicy</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-UNSPECIFIED">
+<td><code>UNSPECIFIED</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-NO_FALLBACK">
+<td><code>NO_FALLBACK</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-ANY_ENDPOINT">
+<td><code>ANY_ENDPOINT</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-DEFAULT_SUBSET">
+<td><code>DEFAULT_SUBSET</code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LoadBalancerSettings.DynamicSubsetLB.LbPolicy</h2>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-UNDEFINED">
+<td><code>UNDEFINED</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-RANDOM">
+<td><code>RANDOM</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-ROUND_ROBIN">
+<td><code>ROUND_ROBIN</code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-LEAST_REQUEST">
+<td><code>LEAST_REQUEST</code></td>
+<td>
 </td>
 </tr>
 </tbody>

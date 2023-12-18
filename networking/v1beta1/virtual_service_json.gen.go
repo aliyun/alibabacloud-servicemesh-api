@@ -39,6 +39,17 @@ func (this *HTTPRoute) UnmarshalJSON(b []byte) error {
 	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for HTTPRoute_HeaderToDynamicSubsetKey
+func (this *HTTPRoute_HeaderToDynamicSubsetKey) MarshalJSON() ([]byte, error) {
+	str, err := VirtualServiceMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for HTTPRoute_HeaderToDynamicSubsetKey
+func (this *HTTPRoute_HeaderToDynamicSubsetKey) UnmarshalJSON(b []byte) error {
+	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for Delegate
 func (this *Delegate) MarshalJSON() ([]byte, error) {
 	str, err := VirtualServiceMarshaler.MarshalToString(this)
@@ -113,6 +124,17 @@ func (this *HTTPRouteDestination) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON is a custom unmarshaler for HTTPRouteDestination
 func (this *HTTPRouteDestination) UnmarshalJSON(b []byte) error {
+	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for HTTPRouteFallback
+func (this *HTTPRouteFallback) MarshalJSON() ([]byte, error) {
+	str, err := VirtualServiceMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for HTTPRouteFallback
+func (this *HTTPRouteFallback) UnmarshalJSON(b []byte) error {
 	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
