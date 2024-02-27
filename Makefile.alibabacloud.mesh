@@ -1,0 +1,49 @@
+# Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
+CRD_OPTIONS_V3 ?= "crd:trivialVersions=true"
+# Produce CRDs that work to Kubernetes 1.22+
+# Skip unexported fields when generating CRDs, xref: https://github.com/kubernetes-sigs/controller-tools/pull/584
+CRD_OPTIONS ?= "crd:crdVersions=v1,ignoreUnexportedFields=true"
+
+# Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
+ifeq (,$(shell go env GOBIN))
+GOBIN=$(shell go env GOPATH)/bin
+else
+GOBIN=$(shell go env GOBIN)
+endif
+
+
+# Generate manifests e.g. CRD, RBAC etc.
+## 使用cue-gen 可能会更合适
+manifests: controller-gen
+	#@echo "$(CONTROLLER_GEN_V3) $(CRD_OPTIONS_V3) rbac:roleName=manager-role webhook paths="./alibabacloud-servicemesh/..." output:crd:artifacts:config=crd/bases"
+	#@$(CONTROLLER_GEN_V3) $(CRD_OPTIONS_V3) rbac:roleName=manager-role webhook paths="./alibabacloud-servicemesh/..." output:crd:artifacts:config=crd/bases
+	@echo "$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./alibabacloud-servicemesh/..." output:crd:artifacts:config=crd/bases/v1"
+	@$(CONTROLLER_GEN) $(CRD_OPTIONS) rbac:roleName=manager-role webhook paths="./alibabacloud-servicemesh/..." output:crd:artifacts:config=crd/bases/v1
+
+
+
+# Generate code
+generate: controller-gen
+	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./alibabacloud-servicemesh/..."
+
+
+# find or download controller-gen
+# download controller-gen if necessary
+controller-gen:
+ifeq (, $(shell which controller-gen))
+    @{ \
+    set -e ;\
+    CONTROLLER_GEN_TMP_DIR=$$(mktemp -d) ;\
+    cd $$CONTROLLER_GEN_TMP_DIR ;\
+    go mod init tmp ;\
+    go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.3.0 ;\
+    mv $(GOBIN)/controller-gen $(GOBIN)/controller-gen-v0.3.0 ;\
+    go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.12.0 ;\
+    rm -rf $$CONTROLLER_GEN_TMP_DIR ;\
+    }
+CONTROLLER_GEN=$(GOBIN)/controller-gen
+CONTROLLER_GEN_V3=$(GOBIN)/controller-gen-v0.3.0
+else
+CONTROLLER_GEN=$(shell which controller-gen)
+CONTROLLER_GEN_V3=$(GOBIN)/controller-gen-v0.3.0
+endif
