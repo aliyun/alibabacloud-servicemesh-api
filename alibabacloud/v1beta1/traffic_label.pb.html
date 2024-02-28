@@ -1,0 +1,233 @@
+---
+title: istio.alibabacloud.v1beta1
+layout: protoc-gen-docs
+generator: protoc-gen-docs
+number_of_entries: 4
+---
+<h2 id="TrafficLabel">TrafficLabel</h2>
+<section>
+<p><code>TrafficLabel</code> describes the configuration to apply the traffic label for specific workloads or by namespace.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficLabel-workload_selector">
+<td><code>workloadSelector</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/networking/sidecar.html#WorkloadSelector">WorkloadSelector</a></code></td>
+<td>
+<p>This refers to the scope of the workload to which the traffic labels will be applied.
+The selector determines where the traffic label should be applied.
+If not set, the selector will match all workloads in the current namespace.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabel-rules">
+<td><code>rules</code></td>
+<td><code><a href="#TrafficLabelRule">TrafficLabelRule[]</a></code></td>
+<td>
+<p>The traffic rules for configuring the tags.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabel-hosts">
+<td><code>hosts</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The scope of the destination host which the traffic label rules should be applied.
+&ldquo;*&rdquo; represents all services within the same namespace which the traffic label belongs to.
+When short names are used (e.g. &ldquo;reviews&rdquo; instead of &ldquo;reviews.default.svc.cluster.local&rdquo;),
+Istio will interpret the short name based on the namespace of the traffic label rule.
+A rule in the &ldquo;default&rdquo; namespace containing a host &ldquo;reviews&rdquo; will be
+interpreted as &ldquo;reviews.default.svc.cluster.local&rdquo;. <em>To avoid
+potential misconfigurations, it is recommended to always use fully
+qualified domain names over short names.</em></p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="TrafficLabelRule">TrafficLabelRule</h2>
+<section>
+<p>TrafficLabelRule describes the rule configuration of the traffic label.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="TrafficLabelRule-labels">
+<td><code>labels</code></td>
+<td><code><a href="#LabelVar">LabelVar[]</a></code></td>
+<td>
+<p>The labels to be attached</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-attachTo">
+<td><code>attachTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>attach to all protocols</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-protocols">
+<td><code>protocols</code></td>
+<td><code>string</code></td>
+<td>
+<p>protocols on which this rule is applied
+&lsquo;*&rsquo; stands for all protocols
+&rsquo;&rsquo; stands for none</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="TrafficLabelRule-http">
+<td><code>http</code></td>
+<td><code><a href="#HTTPLabelRule">HTTPLabelRule[]</a></code></td>
+<td>
+<p>Configuration of specific rules for HTTP request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="LabelVar">LabelVar</h2>
+<section>
+<p>LabelVar describes the properties of label, e.g. name and value.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LabelVar-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>The name of label</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelVar-valueFrom">
+<td><code>valueFrom</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>The value of label. The parameter value of valueFrom follows a natural order of priority,
+with the tag value first obtained from the first row and only obtained from the second row
+when it is not available, and so on.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="LabelVar-overwrite">
+<td><code>overwrite</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Overwrite specifies whether the corresponding values of the original request header should be overwritten</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPLabelRule">HTTPLabelRule</h2>
+<section>
+<p>HTTPLabelRule describes the rule configuration for http protocol</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPLabelRule-match">
+<td><code>match</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/networking/virtual-service.html#HTTPMatchRequest">HTTPMatchRequest[]</a></code></td>
+<td>
+<p>Match conditions to be satisfied for the rule to be
+activated. All conditions inside a single match block have AND
+semantics, while the list of match blocks have OR semantics. The rule
+is matched if any one of the match blocks succeed.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPLabelRule-labels">
+<td><code>labels</code></td>
+<td><code><a href="#LabelVar">LabelVar[]</a></code></td>
+<td>
+<p>labels for http request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPLabelRule-attachTo">
+<td><code>attachTo</code></td>
+<td><code>string[]</code></td>
+<td>
+<p>attach to http request</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
