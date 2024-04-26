@@ -39658,6 +39658,10 @@
               {
                 "name": "LEAST_REQUEST",
                 "integer": 5
+              },
+              {
+                "name": "PEAK_EWMA",
+                "integer": 6
               }
             ]
           },
@@ -42830,6 +42834,10 @@
               {
                 "name": "LEAST_REQUEST",
                 "integer": 5
+              },
+              {
+                "name": "PEAK_EWMA",
+                "integer": 6
               }
             ]
           },

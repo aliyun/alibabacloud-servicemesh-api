@@ -918,6 +918,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmupDurationSecs:
                               description: Represents the warmup duration of Service.
@@ -1254,6 +1255,7 @@ spec:
                                     - PASSTHROUGH
                                     - ROUND_ROBIN
                                     - LEAST_REQUEST
+                                    - PEAK_EWMA
                                     type: string
                                   warmupDurationSecs:
                                     description: Represents the warmup duration of
@@ -1718,6 +1720,7 @@ spec:
                         - PASSTHROUGH
                         - ROUND_ROBIN
                         - LEAST_REQUEST
+                        - PEAK_EWMA
                         type: string
                       warmupDurationSecs:
                         description: Represents the warmup duration of Service.
@@ -2047,6 +2050,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmupDurationSecs:
                               description: Represents the warmup duration of Service.
@@ -2572,6 +2576,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmupDurationSecs:
                               description: Represents the warmup duration of Service.
@@ -2908,6 +2913,7 @@ spec:
                                     - PASSTHROUGH
                                     - ROUND_ROBIN
                                     - LEAST_REQUEST
+                                    - PEAK_EWMA
                                     type: string
                                   warmupDurationSecs:
                                     description: Represents the warmup duration of
@@ -3372,6 +3378,7 @@ spec:
                         - PASSTHROUGH
                         - ROUND_ROBIN
                         - LEAST_REQUEST
+                        - PEAK_EWMA
                         type: string
                       warmupDurationSecs:
                         description: Represents the warmup duration of Service.
@@ -3701,6 +3708,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmupDurationSecs:
                               description: Represents the warmup duration of Service.

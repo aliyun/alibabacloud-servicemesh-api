@@ -2323,6 +2323,16 @@ LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
 
 </td>
 </tr>
+<tr id="LoadBalancerSettings-SimpleLB-PEAK_EWMA">
+<td><code>PEAK_EWMA</code></td>
+<td>
+<p>The peak-ewma algorithm selects 2 endpoints via p2c and then compares
+their scores,  which are calculated based on multiple factors, including:
+latency, error rate, and the number of in-flight requests. endpoint got
+higher score wins.</p>
+
+</td>
+</tr>
 <tr id="LoadBalancerSettings-SimpleLB-LEAST_CONN" class="deprecated ">
 <td><code>LEAST_CONN</code></td>
 <td>
