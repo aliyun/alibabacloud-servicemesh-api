@@ -409,6 +409,13 @@ message LoadBalancerSettings {
     // and outperforms ROUND_ROBIN in nearly all cases. Prefer to use
     // LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.
     LEAST_REQUEST = 5;
+
+        
+    // The peak-ewma algorithm selects 2 endpoints via p2c and then compares 
+    // their scores,  which are calculated based on multiple factors, including: 
+    // latency, error rate, and the number of in-flight requests. endpoint got 
+    // higher score wins.
+    PEAK_EWMA = 6;
   };
 
   // Consistent Hash-based load balancing can be used to provide soft
