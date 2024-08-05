@@ -98,6 +98,7 @@ spec:
                 - AUTHN
                 - AUTHZ
                 - STATS
+                - ASM_ROUTER
                 type: string
               pluginConfig:
                 description: The configuration that will be passed on to the plugin.

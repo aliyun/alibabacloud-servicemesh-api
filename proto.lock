@@ -36746,6 +36746,10 @@
               {
                 "name": "STATS",
                 "integer": 3
+              },
+              {
+                "name": "ASM_ROUTER",
+                "integer": 100
               }
             ]
           },
