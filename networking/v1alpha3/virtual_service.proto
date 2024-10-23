@@ -966,9 +966,14 @@ message HTTPRouteDestination {
 
 // Added by Alibaba Cloud Service Mesh (ASM)
 // Fall back for HTTP Route
+message HTTPRouteFallbackTarget {
+  Destination destination = 1;
+  bool host_rewrite = 2;
+}
 message HTTPRouteFallback {
   string case = 1;
   Destination target = 2;
+  repeated HTTPRouteFallbackTarget targets = 3;
 }
 // End added by Alibaba Cloud Service Mesh (ASM)
 
