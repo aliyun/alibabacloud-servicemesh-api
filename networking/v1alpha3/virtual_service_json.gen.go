@@ -127,6 +127,17 @@ func (this *HTTPRouteDestination) UnmarshalJSON(b []byte) error {
 	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for HTTPRouteFallbackTarget
+func (this *HTTPRouteFallbackTarget) MarshalJSON() ([]byte, error) {
+	str, err := VirtualServiceMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for HTTPRouteFallbackTarget
+func (this *HTTPRouteFallbackTarget) UnmarshalJSON(b []byte) error {
+	return VirtualServiceUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for HTTPRouteFallback
 func (this *HTTPRouteFallback) MarshalJSON() ([]byte, error) {
 	str, err := VirtualServiceMarshaler.MarshalToString(this)

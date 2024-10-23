@@ -9559,6 +9559,35 @@ spec:
                                 required:
                                 - host
                                 type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:
@@ -10539,6 +10568,35 @@ spec:
                                 required:
                                 - host
                                 type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:
@@ -11519,6 +11577,35 @@ spec:
                                 required:
                                 - host
                                 type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:

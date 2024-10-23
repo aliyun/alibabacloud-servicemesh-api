@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 31
+number_of_entries: 32
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -1368,11 +1368,44 @@ No
 </tbody>
 </table>
 </section>
-<h2 id="HTTPRouteFallback">HTTPRouteFallback</h2>
+<h2 id="HTTPRouteFallbackTarget">HTTPRouteFallbackTarget</h2>
 <section>
 <p>Added by Alibaba Cloud Service Mesh (ASM)
 Fall back for HTTP Route</p>
 
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPRouteFallbackTarget-destination">
+<td><code>destination</code></td>
+<td><code><a href="#Destination">Destination</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRouteFallbackTarget-host_rewrite">
+<td><code>hostRewrite</code></td>
+<td><code>bool</code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPRouteFallback">HTTPRouteFallback</h2>
+<section>
 <table class="message-fields">
 <thead>
 <tr>
@@ -1395,6 +1428,15 @@ No
 <tr id="HTTPRouteFallback-target">
 <td><code>target</code></td>
 <td><code><a href="#Destination">Destination</a></code></td>
+<td>
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="HTTPRouteFallback-targets">
+<td><code>targets</code></td>
+<td><code><a href="#HTTPRouteFallbackTarget">HTTPRouteFallbackTarget[]</a></code></td>
 <td>
 </td>
 <td>
