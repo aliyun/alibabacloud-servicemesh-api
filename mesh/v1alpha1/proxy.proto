@@ -756,6 +756,9 @@ message ProxyConfig {
     // This header is disabled by default.
     XForwardedPort x_forwarded_port = 42;
   }
+
+  // Boolean flag for enabling/disabling the http2 protocol
+  bool https_http2_disabled = 100;
 }
 
 message RemoteService {
