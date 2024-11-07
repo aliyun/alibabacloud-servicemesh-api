@@ -773,6 +773,8 @@ message ProxyConfig {
   // Defaults to true.
   // Optional.
   google.protobuf.BoolValue stats_compression = 42;
+  // Boolean flag for enabling/disabling the http2 protocol
+  bool https_http2_disabled = 100;
 }
 
 message RemoteService {
