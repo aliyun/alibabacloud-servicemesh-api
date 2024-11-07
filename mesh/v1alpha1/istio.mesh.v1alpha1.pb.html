@@ -5,7 +5,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 76
+number_of_entries: 80
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1158,6 +1158,17 @@ No
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-aggregate" class="oneof">
+<td><code>aggregate</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider">AggregateProvider (oneof)</a></code></td>
+<td>
+<p>Configures aggregate provider</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1772,6 +1783,18 @@ No
 <td>
 <p>Optional. A 128 bit trace id will be used in Istio.
 If true, will result in a 64 bit trace id being used.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-ZipkinTracingProvider-path">
+<td><code>path</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. Specifies the endpoint of Zipkin API.
+The default value is &ldquo;/api/v2/spans&rdquo;.</p>
 
 </td>
 <td>
@@ -2476,6 +2499,50 @@ spec:
 No
 </td>
 </tr>
+<tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-grpc">
+<td><code>grpc</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-GrpcService">GrpcService</a></code></td>
+<td>
+<p>Optional. Specifies the configuration for exporting OTLP traces via GRPC.
+When empty, traces will check whether HTTP is set.
+If not, traces will use default GRPC configurations.</p>
+<p>The following example shows how to configure the OpenTelemetry ExtensionProvider to export via GRPC:</p>
+<ol>
+<li>Add/change the OpenTelemetry extension provider in <code>MeshConfig</code></li>
+</ol>
+<pre><code class="language-yaml">- name: opentelemetry
+  opentelemetry:
+    port: 8090
+    service: tracing.example.com
+    grpc:
+      timeout: 10s
+      initialMetadata:
+      - name: &quot;Authentication&quot;
+        value: &quot;token-xxxxx&quot;
+</code></pre>
+<ol start="2">
+<li>Deploy a <code>ServiceEntry</code> for the observability back-end</li>
+</ol>
+<pre><code class="language-yaml">apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: tracing-grpc
+spec:
+  hosts:
+  - tracing.example.com
+  ports:
+  - number: 8090
+    name: grpc-port
+    protocol: GRPC
+  resolution: DNS
+  location: MESH_EXTERNAL
+</code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
 <tr id="MeshConfig-ExtensionProvider-OpenTelemetryTracingProvider-resource_detectors">
 <td><code>resourceDetectors</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-ResourceDetectors">ResourceDetectors</a></code></td>
@@ -2643,6 +2710,104 @@ No
 <td><code>dynatrace</code></td>
 <td><code><a href="#MeshConfig-ExtensionProvider-ResourceDetectors-DynatraceResourceDetector">DynatraceResourceDetector</a></code></td>
 <td>
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-GrpcService">MeshConfig.ExtensionProvider.GrpcService</h2>
+<section>
+<p>Defines configuration for an GRPC service that can be used by an Extension Provider.
+that does communication via GRPC.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-GrpcService-timeout">
+<td><code>timeout</code></td>
+<td><code><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#duration">Duration</a></code></td>
+<td>
+<p>Optional. Specifies the timeout for the GRPC request.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-GrpcService-initial_metadata">
+<td><code>initialMetadata</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-HttpHeader">HttpHeader[]</a></code></td>
+<td>
+<p>Optional. Additional metadata to include in streams initiated to the GrpcService. This can be used for
+scenarios in which additional ad hoc authorization headers (e.g. “x-foo-bar: baz-key“) are to
+be injected.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-AggregateProvider">MeshConfig.ExtensionProvider.AggregateProvider</h2>
+<section>
+<p>The following example configures zipkin-intranet provider for cluster-a, and cluster-c
+opentelemetry provider for cluster-b, zipkin provider for the rest.</p>
+<pre><code class="language-yaml">aggregate:
+  defaultProvider:
+    name: zipkin
+  uniqueProviders:
+  - provider:
+      name: zipkin-intranet
+    clusters:
+    - id: cluster-a
+    - id: cluster-c
+  - provider:
+      name: opentelemetry
+    clusters:
+    - id: cluster-b
+    - id: cluster-c
+</code></pre>
+<p>NOTE: If a cluster refered different providers, the first provider refered will be used.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-default_provider">
+<td><code>defaultProvider</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/telemetry.html#ProviderRef">ProviderRef</a></code></td>
+<td>
+<p>REQUIRED. The default provider to use when no unique provider is matched.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-unique_providers">
+<td><code>uniqueProviders</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef">UniqueProviderRef[]</a></code></td>
+<td>
+<p>Optional. List of unique providers that override the default provider.</p>
+
 </td>
 <td>
 No
@@ -2922,6 +3087,91 @@ The resource detector reads from the Dynatrace enrichment files
 and adds host/process related attributes to the OpenTelemetry resource.</p>
 <p>See: <a href="https://docs.dynatrace.com/docs/shortlink/enrichment-files">Enrich ingested data with Dynatrace-specific dimensions</a></p>
 
+</section>
+<h2 id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef">MeshConfig.ExtensionProvider.AggregateProvider.UniqueProviderRef</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-provider">
+<td><code>provider</code></td>
+<td><code><a href="https://istio.io/docs/reference/config/telemetry.html#ProviderRef">ProviderRef</a></code></td>
+<td>
+<p>REQUIRED. The unique provider to use when a proxy is matched.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-clusters">
+<td><code>clusters</code></td>
+<td><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef">ClusterRef[]</a></code></td>
+<td>
+<p>Optional. List of clusters that will use the provider.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef">MeshConfig.ExtensionProvider.AggregateProvider.ClusterRef</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+<th>Required</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-id">
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>
+<p>REQUIRE. Id of the cluster, will be used as proxy selector.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-name">
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. Name of the cluster, won&rsquo;t be used as selector currently, just for more readability.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-region">
+<td><code>region</code></td>
+<td><code>string</code></td>
+<td>
+<p>Optional. Region of the cluster, won&rsquo;t be used as selector currently, just for more readability.</p>
+
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
 </section>
 <h2 id="Tracing">Tracing</h2>
 <section>
@@ -3596,6 +3846,17 @@ Note: currently all headers are enabled by default.</p>
   metadataExchangeHeaders:
     mode: IN_MESH
 </code></pre>
+
+</td>
+<td>
+No
+</td>
+</tr>
+<tr id="ProxyConfig-https_http2_disabled">
+<td><code>httpsHttp2Disabled</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Boolean flag for enabling/disabling the http2 protocol</p>
 
 </td>
 <td>
