@@ -9,6 +9,7 @@ require (
 	google.golang.org/grpc v1.62.1
 	google.golang.org/protobuf v1.33.0
 	k8s.io/api v0.29.0
+	k8s.io/apiextensions-apiserver v0.22.2
 	k8s.io/apimachinery v0.29.0
 	k8s.io/code-generator v0.27.0
 )
