@@ -73,6 +73,7 @@ type ASMSwimLaneStatus struct {
 
 // ASMSwimLane is the Schema for the asmswimlanes API
 // +genclient
+// +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 type ASMSwimLane struct {
