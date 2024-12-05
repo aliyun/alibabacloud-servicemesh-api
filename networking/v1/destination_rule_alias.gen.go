@@ -179,23 +179,6 @@ type LoadBalancerSettings_ConsistentHashLB_RingHash_ = v1alpha3.LoadBalancerSett
 // The Maglev load balancer implements consistent hashing to backend hosts.
 type LoadBalancerSettings_ConsistentHashLB_Maglev = v1alpha3.LoadBalancerSettings_ConsistentHashLB_Maglev
 
-// --- added by asm ---
-type LoadBalancerSettings_DynamicSubsetLB = v1alpha3.LoadBalancerSettings_DynamicSubsetLB
-type LoadBalancerSettings_DynamicSubsetLB_SubsetSelector = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_SubsetSelector
-type LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy
-
-const LoadBalancerSettings_DynamicSubsetLB_UNSPECIFIED LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_UNSPECIFIED
-const LoadBalancerSettings_DynamicSubsetLB_NO_FALLBACK LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_NO_FALLBACK
-const LoadBalancerSettings_DynamicSubsetLB_ANY_ENDPOINT LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_ANY_ENDPOINT
-const LoadBalancerSettings_DynamicSubsetLB_DEFAULT_SUBSET LoadBalancerSettings_DynamicSubsetLB_FallbackPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_DEFAULT_SUBSET
-
-type LoadBalancerSettings_DynamicSubsetLB_LbPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_LbPolicy
-
-const LoadBalancerSettings_DynamicSubsetLB_UNDEFINED LoadBalancerSettings_DynamicSubsetLB_LbPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_UNDEFINED
-const LoadBalancerSettings_DynamicSubsetLB_RANDOM LoadBalancerSettings_DynamicSubsetLB_LbPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_RANDOM
-const LoadBalancerSettings_DynamicSubsetLB_ROUND_ROBIN LoadBalancerSettings_DynamicSubsetLB_LbPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_ROUND_ROBIN
-const LoadBalancerSettings_DynamicSubsetLB_LEAST_REQUEST LoadBalancerSettings_DynamicSubsetLB_LbPolicy = v1alpha3.LoadBalancerSettings_DynamicSubsetLB_LEAST_REQUEST
-
 // +kubebuilder:validation:XValidation:message="only one of warmupDurationSecs or warmup can be set",rule="(has(self.warmupDurationSecs)?1:0)+(has(self.warmup)?1:0)<=1"
 // Standard load balancing algorithms that require no tuning.
 type LoadBalancerSettings_SimpleLB = v1alpha3.LoadBalancerSettings_SimpleLB
@@ -231,17 +214,8 @@ const LoadBalancerSettings_ROUND_ROBIN LoadBalancerSettings_SimpleLB = v1alpha3.
 // LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.
 const LoadBalancerSettings_LEAST_REQUEST LoadBalancerSettings_SimpleLB = v1alpha3.LoadBalancerSettings_LEAST_REQUEST
 
-// The peak-ewma algorithm selects 2 endpoints via p2c and then compares
-// their scores,  which are calculated based on multiple factors, including:
-// latency, error rate, and the number of in-flight requests. endpoint got
-// higher score wins.
-const LoadBalancerSettings_PEAK_EWMA LoadBalancerSettings_SimpleLB = v1alpha3.LoadBalancerSettings_PEAK_EWMA
-
 type LoadBalancerSettings_Simple = v1alpha3.LoadBalancerSettings_Simple
 type LoadBalancerSettings_ConsistentHash = v1alpha3.LoadBalancerSettings_ConsistentHash
-
-// --- added by asm ---
-type LoadBalancerSettings_DynamicSubset = v1alpha3.LoadBalancerSettings_DynamicSubset
 type WarmupConfiguration = v1alpha3.WarmupConfiguration
 
 // Connection pool settings for an upstream host. The settings apply to

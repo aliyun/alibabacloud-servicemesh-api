@@ -25,8 +25,7 @@ buf generate \
   --path authentication \
   --path meta \
   --path telemetry \
-  --path extensions \
-  --path alibabacloud
+  --path extensions
 
 # These folders do not have the full plugins used, as they are not full CRDs.
 # We pass them a custom configuration to exclude the non-required files

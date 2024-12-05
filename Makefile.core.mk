@@ -44,9 +44,8 @@ gen: \
 	generate-annotations \
 	generate-labels \
 	mirror-licenses \
-	tidy-go 
-# removed by ASM: buf breaking not working on aliababacloud-servicemesh-api
-#	breaking 
+	tidy-go \
+	breaking
 
 gen-check: gen check-clean-repo
 

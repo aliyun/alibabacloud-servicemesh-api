@@ -428,11 +428,6 @@ enum PluginPhase {
 
   // Insert plugin before Istio stats filters and after Istio authorization filters.
   STATS = 3;
-
-  // begin added by asm
-  // Insert plugin before Http router filter.
-  ASM_ROUTER = 100;
-  // end added by asm
 }
 
 // The pull behaviour to be applied when fetching a Wam module,

@@ -20,7 +20,6 @@ import "google/protobuf/wrappers.proto";
 import "mesh/v1alpha1/proxy.proto";
 import "networking/v1alpha3/destination_rule.proto";
 import "networking/v1alpha3/virtual_service.proto";
-import "telemetry/v1alpha1/telemetry.proto";
 
 // $title: Global Mesh Options
 // $description: Configuration affecting the service mesh as a whole.
@@ -548,8 +547,6 @@ message MeshConfig {
       EnvoyTcpGrpcV3LogProvider envoy_tcp_als = 13;
       // Configures an Envoy Open Telemetry Access Logging Service provider.
       EnvoyOpenTelemetryLogProvider envoy_otel_als = 14;
-      // Configures aggregate provider
-      AggregateProvider aggregate = 999;
 
       // $hide_from_docs
       // next id: 16
@@ -1285,53 +1282,6 @@ message MeshConfig {
       // scenarios in which additional ad hoc authorization headers (e.g. “x-foo-bar: baz-key“) are to
       // be injected.
       repeated HttpHeader initial_metadata = 2;
-    }
-
-    // The following example configures zipkin-intranet provider for cluster-a, and cluster-c
-    // opentelemetry provider for cluster-b, zipkin provider for the rest.
-    // ```yaml
-    // aggregate:
-    //   defaultProvider:
-    //     name: zipkin
-    //   uniqueProviders:
-    //   - provider:
-    //       name: zipkin-intranet
-    //     clusters:
-    //     - id: cluster-a
-    //     - id: cluster-c
-    //   - provider:
-    //       name: opentelemetry
-    //     clusters:
-    //     - id: cluster-b
-    //     - id: cluster-c
-    // ```
-    // 
-    // NOTE: If a cluster refered different providers, the first provider refered will be used.
-    message AggregateProvider {
-      // REQUIRED. The default provider to use when no unique provider is matched.
-      istio.telemetry.v1alpha1.ProviderRef default_provider = 1;
-      // Optional. List of unique providers that override the default provider.
-      repeated UniqueProviderRef unique_providers = 2;
-      
-      message UniqueProviderRef {
-        // REQUIRED. The unique provider to use when a proxy is matched.
-        istio.telemetry.v1alpha1.ProviderRef provider = 1;
-        // Optional. List of clusters that will use the provider.
-        repeated ClusterRef clusters = 2;
-        
-        // TODO: maybe namespace and workload scope selector
-        // repeated string namespaces = 3;
-        // istio.type.v1beta1.WorkloadSelector selector = 4;
-      }
-      
-      message ClusterRef {
-        // REQUIRE. Id of the cluster, will be used as proxy selector.
-        string id = 1;
-        // Optional. Name of the cluster, won't be used as selector currently, just for more readability.
-        string name = 2;
-        // Optional. Region of the cluster, won't be used as selector currently, just for more readability.
-        string region = 3;
-      }
     }
   }
 

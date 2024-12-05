@@ -35,7 +35,6 @@
 genbin/
 
 /vendor
-/tests/vendor
 
 .htmlproofer
 
