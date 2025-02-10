@@ -25,3 +25,9 @@ gen` will update the proto.lock file with new changes.
 If a PR tries to make backwards incompatible changes, it will be blocked by `buf breaking`.
 If there are legitimate reasons to make these breaking changes forever, the configuration in [`buf.yaml`](buf.yaml) can be changed.
 If it is a one-off case, the PR can be force approved skipping the test.
+
+## ASM Clients Generation
+
+Run `make gen-asm-clients` to generate ASM clients. Generated clients are output to `asm-generated-clients` by default. You can run `OUTPUT_BASE=${YOUR_PATH} make gen-asm-clients` to specify the output path you desire.
+
+After clients are generated, you can copy to the `alibabacloud-servicemesh-go-client` repository.
