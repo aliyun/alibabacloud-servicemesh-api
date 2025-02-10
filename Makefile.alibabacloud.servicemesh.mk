@@ -2,7 +2,7 @@ BIN_DIR = ./bin
 CLIENT_GEN = $(BIN_DIR)/client-gen
 LISTERS_GEN = $(BIN_DIR)/lister-gen
 INFORMERS_GEN = $(BIN_DIR)/informer-gen
-OUTPUT_BASE = generated-clients
+OUTPUT_BASE ?= asm-generated-clients
 
 CLIENT_GEN_VERSION = v0.27.0
 LISTERS_GEN_VERSION = v0.27.0
@@ -13,7 +13,7 @@ INFORMERS_GEN_VERSION = v0.27.0
 client-gen-tools: client-gen lister-gen informer-gen 
 
 gen-asm-clients: client-gen-tools
-	OUTPUT_BASE=$(OUTPUT_BASE) bash scripts/client-gen.sh
+	OUTPUT_BASE=$(OUTPUT_BASE) bash scripts/gen-asm-clients.sh
 
 client-gen:
 	$(call go-get-tool,$(BIN_DIR)/client-gen,k8s.io/code-generator/cmd/client-gen@$(CLIENT_GEN_VERSION))
