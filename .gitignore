@@ -23,6 +23,7 @@
 *.exe
 *.out
 *.app
+bin/
 
 .idea/
 .project
