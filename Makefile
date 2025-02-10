@@ -23,6 +23,7 @@ SHELL := /usr/bin/env bash
 
 # allow optional per-repo overrides
 -include Makefile.overrides.mk
+-include Makefile.alibabacloud.servicemesh.mk
 
 # Set the environment variable BUILD_WITH_CONTAINER to use a container
 # to build the repo. The only dependencies in this mode are to have make and
