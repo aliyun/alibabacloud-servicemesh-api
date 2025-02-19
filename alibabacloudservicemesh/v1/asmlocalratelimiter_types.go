@@ -1,16 +1,18 @@
-// Copyright 2023 Alibaba Cloud Service Mesh
-//
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//   Unless required by applicable law or agreed to in writing, software
-//   distributed under the License is distributed on an "AS IS" BASIS,
-//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//   See the License for the specific language governing permissions and
-//   limitations under the License.
+/*
+
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
 package v1
 
@@ -75,6 +77,27 @@ type HeaderMatcher struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
+type QueryParameterMatcher struct {
+	Name string `json:"name,omitempty"`
+	// precisely one of the following must be set
+	ExactMatch    string `json:"exact_match,omitempty"`
+	PrefixMatch   string `json:"prefix_match,omitempty"`
+	SuffixMatch   string `json:"suffix_match,omitempty"`
+	RegexMatch    string `json:"regex_match,omitempty"`
+	ContainsMatch string `json:"contains_match,omitempty"`
+	PresentMatch  bool   `json:"present_match,omitempty"`
+	// only works for exact/prefix/suffix/contains
+	IgnoreCase bool `json:"ignore_case,omitempty"`
+}
+
+type RemoteAddressMatcher struct {
+	// The IP address of the remote address.
+	Address string `json:"address,omitempty"`
+	// The IP address mask for the remote address.
+	V4PrefixMaskLen *uint32 `json:"v4_prefix_mask_len,omitempty"`
+	V6PrefixMaskLen *uint32 `json:"v6_prefix_mask_len,omitempty"`
+}
+
 type RouteMatch struct {
 	NameMatch   string           `protobuf:"bytes,1,opt,name=name_match,proto3" json:"name_match,omitempty"`
 	HeaderMatch []*HeaderMatcher `protobuf:"bytes,2,rep,name=header_match,proto3" json:"header_match,omitempty"`
@@ -121,10 +144,22 @@ type LimitConfig struct {
 	ResponseHeadersToAdd map[string]string `json:"response_headers_to_add,omitempty"`
 }
 
+type RequestMatcher struct {
+	HeaderMatch        []HeaderMatcher         `json:"header_match,omitempty"`
+	RemoteAddressMatch *RemoteAddressMatcher   `json:"remote_address,omitempty"`
+	QueryMatch         []QueryParameterMatcher `json:"query_match,omitempty"`
+}
+
+type RateLimitOverrideConfig struct {
+	RequestMatch RequestMatcher `json:"request_match,omitempty"`
+	LimitConfig  LimitConfig    `json:"limit,omitempty"`
+}
+
 type LocalRateLimiterConfig struct {
-	Name  string          `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Match *RateLimitMatch `protobuf:"bytes,2,opt,name=match,proto3" json:"match,omitempty"`
-	Limit *LimitConfig    `protobuf:"bytes,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	Name           string                    `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Match          *RateLimitMatch           `protobuf:"bytes,2,opt,name=match,proto3" json:"match,omitempty"`
+	Limit          *LimitConfig              `protobuf:"bytes,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	LimitOverrides []RateLimitOverrideConfig `protobuf:"bytes,4,opt,name=limit_overrides,proto3" json:"limit_overrides,omitempty"`
 
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -153,13 +188,11 @@ type ASMLocalRateLimiterStatus struct {
 	Message string `json:"message,omitempty"`
 }
 
-//+kubebuilder:storageversion
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// +genclient
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // ASMLocalRateLimiter is the Schema for the asmlocalratelimiters API
+// +genclient
 type ASMLocalRateLimiter struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -169,7 +202,7 @@ type ASMLocalRateLimiter struct {
 }
 
 //+kubebuilder:object:root=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
 // ASMLocalRateLimiterList contains a list of ASMLocalRateLimiter
 type ASMLocalRateLimiterList struct {
 	metav1.TypeMeta `json:",inline"`

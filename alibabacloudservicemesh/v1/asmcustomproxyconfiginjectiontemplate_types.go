@@ -97,3 +97,7 @@ type ASMCustomProxyConfigInjectionTemplateList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMCustomProxyConfigInjectionTemplate `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&ASMCustomProxyConfigInjectionTemplate{}, &ASMCustomProxyConfigInjectionTemplateList{})
+}

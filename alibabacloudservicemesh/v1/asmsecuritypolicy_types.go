@@ -117,6 +117,7 @@ type SubResource struct {
 
 // ASMSecurityPolicy is the Schema for the asmsecurepolicies API
 // +genclient
+// +genclient:nonNamespaced
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=asmsecuritypolicies,scope=Cluster
 type ASMSecurityPolicy struct {
@@ -134,4 +135,8 @@ type ASMSecurityPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMSecurityPolicy `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMSecurityPolicy{}, &ASMSecurityPolicyList{})
 }
