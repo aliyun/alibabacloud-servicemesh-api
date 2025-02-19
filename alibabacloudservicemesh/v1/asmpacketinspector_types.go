@@ -72,6 +72,7 @@ type ASMPacketInspectorStatus struct {
 
 // ASMPacketInspector is the Schema for the asmpacketinspectors API
 // +genclient
+// +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 type ASMPacketInspector struct {
@@ -88,4 +89,8 @@ type ASMPacketInspectorList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMPacketInspector `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMPacketInspector{}, &ASMPacketInspectorList{})
 }

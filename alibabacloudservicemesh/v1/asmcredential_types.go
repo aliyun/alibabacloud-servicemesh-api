@@ -82,3 +82,7 @@ type ASMCredentialList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMCredential `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&ASMCredential{}, &ASMCredentialList{})
+}

@@ -94,6 +94,7 @@ type ASMKnativeConfigStatus struct {
 
 // ASMKnativeConfig is the Schema for the asmknativeconfigs API
 // +genclient
+// +genclient:nonNamespaced
 // +kubebuilder:subresource:status
 // +kubebuilder:resource:path=asmknativeconfigs,scope=Namespaced
 // KnativeConfig defines the configuration of knative related artifacts
@@ -150,4 +151,8 @@ func (r *ASMKnativeConfig) GetIstioGatewayService() string {
 		}
 	}
 	return gateway
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMKnativeConfig{}, &ASMKnativeConfigList{})
 }
