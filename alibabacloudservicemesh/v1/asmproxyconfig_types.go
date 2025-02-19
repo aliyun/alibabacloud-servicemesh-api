@@ -156,3 +156,7 @@ type ASMProxyConfigList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMProxyConfig `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&ASMProxyConfig{}, &ASMProxyConfigList{})
+}
