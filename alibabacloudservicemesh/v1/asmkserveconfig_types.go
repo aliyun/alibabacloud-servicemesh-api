@@ -40,6 +40,7 @@ type ASMKServeConfigStatus struct {
 
 // ASMKServeConfig is the Schema for the asmserviceregistries API
 // +genclient
+// +genclient:nonNamespaced
 // +k8s:openapi-gen=true
 type ASMKServeConfig struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -57,7 +58,6 @@ type ASMKServeConfigList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMKServeConfig `json:"items"`
 }
-
 
 type KServeConfig struct {
 	Enabled                             bool                    `json:"enabled,omitempty"`
@@ -99,4 +99,8 @@ type CustomImageRepo struct {
 	Torchserve        *string `json:"torchserve,omitempty"`
 	Tritonserver      *string `json:"tritonserver,omitempty"`
 	Xgbserver         *string `json:"xgbserver,omitempty"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMKServeConfig{}, &ASMKServeConfigList{})
 }

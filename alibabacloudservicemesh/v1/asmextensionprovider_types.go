@@ -210,6 +210,7 @@ type ASMExtensionProviderStatus struct {
 
 // ASMExtensionProvider is the Schema for the asmextensionprovider API
 // +genclient
+// +genclient:nonNamespaced
 type ASMExtensionProvider struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -225,4 +226,8 @@ type ASMExtensionProviderList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []*ASMExtensionProvider `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMExtensionProvider{}, &ASMExtensionProviderList{})
 }
