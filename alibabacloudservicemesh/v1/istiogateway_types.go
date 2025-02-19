@@ -186,12 +186,6 @@ type IstioGatewayList struct {
 	Items           []IstioGateway `json:"items"`
 }
 
-
-func (s *IstioGatewaySpec) SetClusterId(clusterId string) *IstioGatewaySpec {
-	s.clusterId = clusterId
-	return s
-}
-
-func (s *IstioGatewaySpec) GetClusterId() string {
-	return s.clusterId
+func init() {
+	SchemeBuilder.Register(&IstioGateway{}, &IstioGatewayList{})
 }

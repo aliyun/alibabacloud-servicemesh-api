@@ -111,6 +111,7 @@ type ASMSwimLaneGroupStatus struct {
 
 // ASMSwimLaneGroup is the Schema for the asmswimlanegroups API
 // +genclient
+// +genclient:nonNamespaced
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:openapi-gen=true
 type ASMSwimLaneGroup struct {
@@ -127,4 +128,8 @@ type ASMSwimLaneGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMSwimLaneGroup `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMSwimLaneGroup{}, &ASMSwimLaneGroupList{})
 }
