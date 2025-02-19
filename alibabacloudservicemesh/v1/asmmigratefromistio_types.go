@@ -34,6 +34,7 @@ type ASMMigrateFromIstioStatus struct {
 
 // ASMMigrateFromIstio is the Schema for the ASMMigrateFromIstio API
 // +genclient
+// +genclient:nonNamespaced
 type ASMMigrateFromIstio struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -47,4 +48,8 @@ type ASMMigrateFromIstioList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ASMMigrateFromIstio `json:"items"`
+}
+
+func init() {
+	SchemeBuilder.Register(&ASMMigrateFromIstio{}, &ASMMigrateFromIstioList{})
 }
