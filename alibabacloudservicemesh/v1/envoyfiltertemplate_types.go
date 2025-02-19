@@ -69,3 +69,7 @@ type EnvoyFilterTemplateList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []EnvoyFilterTemplate `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&EnvoyFilterTemplate{}, &EnvoyFilterTemplateList{})
+}
