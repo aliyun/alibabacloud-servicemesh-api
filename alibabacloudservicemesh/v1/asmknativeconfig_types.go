@@ -115,44 +115,6 @@ type ASMKnativeConfigList struct {
 	Items           []ASMKnativeConfig `json:"items"`
 }
 
-func (r *ASMKnativeConfig) GetDomainConfig() *DomainConfig {
-	var domainConfig *DomainConfig
-	if r != nil && r.Spec.DomainConfig != nil {
-		domainConfig = r.Spec.DomainConfig
-	}
-	return domainConfig
-}
-
-func (r *ASMKnativeConfig) GetDomainName() string {
-	domainConfig := r.GetDomainConfig()
-	domainName := "example.com"
-	if domainConfig != nil {
-		if domainConfig.DomainName != nil {
-			domainName = *domainConfig.DomainName
-		}
-	}
-	return domainName
-}
-
-func (r *ASMKnativeConfig) GetIstioConfig() *IstioConfig {
-	var istioConfig *IstioConfig
-	if r != nil && r.Spec.IstioConfig != nil {
-		istioConfig = r.Spec.IstioConfig
-	}
-	return istioConfig
-}
-
-func (r *ASMKnativeConfig) GetIstioGatewayService() string {
-	istioConfig := r.GetIstioConfig()
-	gateway := "istio-ingressgateway.istio-system.svc.cluster.local"
-	if istioConfig != nil {
-		if istioConfig.Gatway != nil && len(*istioConfig.Gatway) > 0 {
-			gateway = *istioConfig.Gatway
-		}
-	}
-	return gateway
-}
-
 func init() {
 	SchemeBuilder.Register(&ASMKnativeConfig{}, &ASMKnativeConfigList{})
 }
