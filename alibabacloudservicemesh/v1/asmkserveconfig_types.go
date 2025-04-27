@@ -59,6 +59,10 @@ type ASMKServeConfigList struct {
 	Items           []ASMKServeConfig `json:"items"`
 }
 
+func init() {
+	SchemeBuilder.Register(&ASMKServeConfig{}, &ASMKServeConfigList{})
+}
+
 type KServeConfig struct {
 	Enabled                             bool                    `json:"enabled,omitempty"`
 	Tag                                 *string                 `json:"tag,omitempty"`
@@ -99,8 +103,4 @@ type CustomImageRepo struct {
 	Torchserve        *string `json:"torchserve,omitempty"`
 	Tritonserver      *string `json:"tritonserver,omitempty"`
 	Xgbserver         *string `json:"xgbserver,omitempty"`
-}
-
-func init() {
-	SchemeBuilder.Register(&ASMKServeConfig{}, &ASMKServeConfigList{})
 }

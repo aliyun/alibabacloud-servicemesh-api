@@ -17,17 +17,8 @@ limitations under the License.
 package v1
 
 import (
-	"fmt"
-	"math"
-
-	"github.com/gogo/protobuf/proto"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
@@ -46,10 +37,7 @@ type WorkloadSelector struct {
 	// on which the configuration should be applied. The scope of
 	// label search is restricted to the configuration namespace in which the
 	// the resource is present.
-	Labels               map[string]string `protobuf:"bytes,1,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
-	XXX_unrecognized     []byte            `json:"-"`
-	XXX_sizecache        int32             `json:"-"`
+	Labels map[string]string `protobuf:"bytes,1,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 type HeaderMatcher struct {
@@ -71,10 +59,7 @@ type HeaderMatcher struct {
 	// * The regex ``\d{3}`` does not match the value *1234*, so it will match when inverted.
 	InvertMatch bool `protobuf:"varint,7,opt,name=invert_match,json=invertMatch,proto3" json:"invert_match,omitempty"`
 	// if specified, the exact match the value ""
-	IsExactMatchEmpty    bool     `protobuf:"varint,8,opt,name=is_exact_match_empty,json=isExactMatchEmpty,proto3" json:"is_exact_match_empty,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	IsExactMatchEmpty bool `protobuf:"varint,8,opt,name=is_exact_match_empty,json=isExactMatchEmpty,proto3" json:"is_exact_match_empty,omitempty"`
 }
 
 type QueryParameterMatcher struct {
@@ -124,14 +109,12 @@ type Duration struct {
 	// of one second or more, a non-zero value for the `nanos` field must be
 	// of the same sign as the `seconds` field. Must be from -999,999,999
 	// to +999,999,999 inclusive.
-	Nanos                int32    `protobuf:"varint,2,opt,name=nanos,proto3" json:"nanos,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Nanos int32 `protobuf:"varint,2,opt,name=nanos,proto3" json:"nanos,omitempty"`
 }
 
 // Envoy Issue: https://github.com/envoyproxy/envoy/issues/21513
 type LimitConfig struct {
+	Status                  *int32    `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	FillInterval            *Duration `protobuf:"bytes,1,opt,name=fill_interval,proto3" json:"fill_interval,omitempty"`
 	Quota                   int32     `protobuf:"varint,2,opt,name=quota,proto3" json:"quota,omitempty"`
 	PerDownStreamConnection bool      `json:"per_downstream_connection,omitempty"`
@@ -160,10 +143,6 @@ type LocalRateLimiterConfig struct {
 	Match          *RateLimitMatch           `protobuf:"bytes,2,opt,name=match,proto3" json:"match,omitempty"`
 	Limit          *LimitConfig              `protobuf:"bytes,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	LimitOverrides []RateLimitOverrideConfig `protobuf:"bytes,4,opt,name=limit_overrides,proto3" json:"limit_overrides,omitempty"`
-
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
 }
 
 // ASMLocalRateLimiterSpec defines the desired state of ASMLocalRateLimiter
