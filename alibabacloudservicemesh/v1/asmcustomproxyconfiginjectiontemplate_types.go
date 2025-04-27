@@ -28,6 +28,8 @@ type ConfigPatches struct {
 	//SidecarProxyResourceRequest describes the cpu/memory request for sidecar proxy
 	SidecarProxyResourceRequest *ProxyInitResourceRequest `json:"sidecarProxyResourceRequest,omitempty" yaml:"sidecarProxyResourceRequest,omitempty"`
 
+	ScaledSidecarResource *ScaledSidecarResource `json:"scaledSidecarResource,omitempty" yaml:"scaledSidecarResource,omitempty"`
+
 	//ExcludeOutboundPorts: A comma separated list of outbound ports to be excluded from redirection to Envoy.
 	ExcludeOutboundPorts *string `json:"excludeOutboundPorts,omitempty" yaml:"excludeOutboundPorts,omitempty"`
 	//ExcludeOutboundIPRanges: A comma separated list of IP ranges in CIDR form to be excluded from redirection. Only applies when all outbound traffic (i.e. '*') is being redirected.
