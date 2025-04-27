@@ -43,8 +43,7 @@ type To struct {
 	//+kubebuilder:validation:MaxItems=50
 	Hosts []string `json:"hosts,omitempty"`
 	//+kubebuilder:validation:Required
-	Port *v1beta1.Port `json:"port,omitempty"`
-	//+kubebuilder:validation:Required
+	Port            *v1beta1.Port    `json:"port,omitempty"`
 	ByEgressGateway *ByEgressGateway `json:"byEgressGateway,omitempty"`
 	HttpsUpgrade    *HttpsUpgrade    `json:"httpsUpgrade,omitempty"`
 }
@@ -75,6 +74,15 @@ type EgressTrafficPolicyStatus struct {
 	Status string `json:"status,omitempty"`
 	// Message defines the possible error message
 	Message string `json:"message,omitempty"`
+	// If all to.ByEgressGateway are nil, enable auto allocation gateway port.
+	// AutoAllocatedGatewayPorts defines the allocated gateway ports.
+	// Key is hosts[0]-port, value is allocated gateway port.
+	// Gateway port auto-allocation rules:
+	// 1. HTTP: always 10000
+	// 2. grpc: 50051
+	// 3. tcp、tls: 10001~20000, every hosts-port has one gateway port.
+	// TODO: suport custom tcp\tls port range by annotation
+	AutoAllocatedGatewayPorts map[string]uint32 `json:"autoAllocatedGatewayPorts,omitempty"`
 }
 
 //+kubebuilder:object:root=true
