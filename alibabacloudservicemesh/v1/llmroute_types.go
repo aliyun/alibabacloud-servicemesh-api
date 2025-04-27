@@ -24,6 +24,22 @@ type LLMRule struct {
 	BackendRefs []*LLMBackendRef   `json:"backendRefs,omitempty"`
 }
 
+type VLLMBackend struct {
+	ServiceName string `json:"serviceName"`
+	Port        int    `json:"port"`
+}
+
+type VLLMModel struct {
+	ModelName    string        `json:"modelName"`
+	Criticality  string        `json:"criticality"`
+	TargetModels []TargetModel `json:"targetModels"`
+}
+
+type TargetModel struct {
+	Name   string `json:"name"`
+	Weight int32  `json:"weight"`
+}
+
 type LLMRequestMatch struct {
 	Headers      map[string]*networkingv1beta1.StringMatch `json:"headers,omitempty"`
 	SourceLabels map[string]string                         `json:"sourceLabels,omitempty"`
@@ -31,9 +47,19 @@ type LLMRequestMatch struct {
 }
 
 type LLMBackendRef struct {
-	ProviderHost *string `json:"providerHost,omitempty"`
-	Weight       int32   `json:"weight,omitempty"`
-	HostRewrite  *string `json:"hostRewrite,omitempty"`
+	ProviderHost *string                 `json:"providerHost,omitempty"`
+	Weight       int32                   `json:"weight,omitempty"`
+	HostRewrite  *string                 `json:"hostRewrite,omitempty"`
+	BackendRef   *BackendObjectReference `json:"backendRef,omitempty"`
+}
+
+// Current only Support InferencePool Object
+type BackendObjectReference struct {
+	Group     *string `json:"group,omitempty"`
+	Kind      *string `json:"kind,omitempty"`
+	Name      *string `json:"name"`
+	Namespace *string `json:"namespace,omitempty"`
+	Port      *int32  `json:"port,omitempty"`
 }
 
 // LLMRouteStatus defines the observed state of LLMRoute
