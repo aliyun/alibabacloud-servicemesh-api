@@ -14,18 +14,7 @@ limitations under the License.
 
 package v1
 
-import (
-	"fmt"
-	"github.com/gogo/protobuf/proto"
-	"math"
-)
-
 // refer to https://github.com/envoyproxy/go-control-plane/blob/84c5a14eb8c8b5b99efeecd3801fea84d628852d/envoy/extensions/filters/http/compressor/v3/compressor.pb.go
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ = proto.Marshal
-var _ = fmt.Errorf
-var _ = math.Inf
 
 type GzipCompressor struct {
 	// Value from 1 to 9 that controls the amount of internal memory used by zlib. Higher values
