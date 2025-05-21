@@ -502,7 +502,17 @@ message HTTPRoute {
 
   // $hide_from_docs
   // Next available field number: 23
+
+  // --- added by asm ---
+  message HeaderToDynamicSubsetKey {
+    string header = 1;
+    string key = 2;
+    string defaultValue = 3;
+  }
+  repeated HeaderToDynamicSubsetKey header_to_dynamic_subset_key = 30000;
+  // --- end added by asm ---
 }
+
 
 
 // Describes the delegate VirtualService.
@@ -948,7 +958,24 @@ message HTTPRouteDestination {
 
   // Header manipulation rules
   Headers headers = 7;
+
+  // Added by Alibaba Cloud Service Mesh (ASM)
+  HTTPRouteFallback fallback = 30;
+  // End added by Alibaba Cloud Service Mesh (ASM)
 }
+
+// Added by Alibaba Cloud Service Mesh (ASM)
+// Fall back for HTTP Route
+message HTTPRouteFallbackTarget {
+  Destination destination = 1;
+  bool host_rewrite = 2;
+}
+message HTTPRouteFallback {
+  string case = 1;
+  Destination target = 2;
+  repeated HTTPRouteFallbackTarget targets = 3;
+}
+// End added by Alibaba Cloud Service Mesh (ASM)
 
 // L4 routing rule weighted destination.
 message RouteDestination {

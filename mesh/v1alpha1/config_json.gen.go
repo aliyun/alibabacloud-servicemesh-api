@@ -380,6 +380,39 @@ func (this *MeshConfig_ExtensionProvider_GrpcService) UnmarshalJSON(b []byte) er
 	return ConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
 }
 
+// MarshalJSON is a custom marshaler for MeshConfig_ExtensionProvider_AggregateProvider
+func (this *MeshConfig_ExtensionProvider_AggregateProvider) MarshalJSON() ([]byte, error) {
+	str, err := ConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for MeshConfig_ExtensionProvider_AggregateProvider
+func (this *MeshConfig_ExtensionProvider_AggregateProvider) UnmarshalJSON(b []byte) error {
+	return ConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for MeshConfig_ExtensionProvider_AggregateProvider_UniqueProviderRef
+func (this *MeshConfig_ExtensionProvider_AggregateProvider_UniqueProviderRef) MarshalJSON() ([]byte, error) {
+	str, err := ConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for MeshConfig_ExtensionProvider_AggregateProvider_UniqueProviderRef
+func (this *MeshConfig_ExtensionProvider_AggregateProvider_UniqueProviderRef) UnmarshalJSON(b []byte) error {
+	return ConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
+// MarshalJSON is a custom marshaler for MeshConfig_ExtensionProvider_AggregateProvider_ClusterRef
+func (this *MeshConfig_ExtensionProvider_AggregateProvider_ClusterRef) MarshalJSON() ([]byte, error) {
+	str, err := ConfigMarshaler.MarshalToString(this)
+	return []byte(str), err
+}
+
+// UnmarshalJSON is a custom unmarshaler for MeshConfig_ExtensionProvider_AggregateProvider_ClusterRef
+func (this *MeshConfig_ExtensionProvider_AggregateProvider_ClusterRef) UnmarshalJSON(b []byte) error {
+	return ConfigUnmarshaler.Unmarshal(bytes.NewReader(b), this)
+}
+
 // MarshalJSON is a custom marshaler for MeshConfig_DefaultProviders
 func (this *MeshConfig_DefaultProviders) MarshalJSON() ([]byte, error) {
 	str, err := ConfigMarshaler.MarshalToString(this)

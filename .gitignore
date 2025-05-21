@@ -23,6 +23,7 @@
 *.exe
 *.out
 *.app
+bin/
 
 .idea/
 .project
@@ -35,8 +36,11 @@
 genbin/
 
 /vendor
+/tests/vendor
 
 .htmlproofer
 
 # Contains the built artifacts
 out/
+
+bin/

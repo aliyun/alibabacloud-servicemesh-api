@@ -277,6 +277,9 @@ message Topology {
   // Enables [PROXY protocol](http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt) for
   // downstream connections on a gateway.
   ProxyProtocolConfiguration proxy_protocol = 3;
+
+  repeated string xff_trusted_cidrs = 200;
+  google.protobuf.BoolValue skip_xff_append = 201;
 }
 
 // ForwardClientCertDetails controls how the x-forwarded-client-cert (XFCC)
@@ -746,6 +749,9 @@ message ProxyConfig {
     google.protobuf.BoolValue preserve_http1_header_case = 40;
 
   }
+
+  // Boolean flag for enabling/disabling the http2 protocol
+  bool https_http2_disabled = 100;
 }
 
 message RemoteService {
