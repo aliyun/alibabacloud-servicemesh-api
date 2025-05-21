@@ -184,6 +184,9 @@ type Destination = v1alpha3.Destination
 // gRPC traffic. See VirtualService for usage examples.
 type HTTPRoute = v1alpha3.HTTPRoute
 
+// --- added by asm ---
+type HTTPRoute_HeaderToDynamicSubsetKey = v1alpha3.HTTPRoute_HeaderToDynamicSubsetKey
+
 // Describes the delegate VirtualService.
 // The following routing rules forward the traffic to `/productpage` by a delegate VirtualService named `productpage`,
 // forward the traffic to `/reviews` by a delegate VirtualService named `reviews`.
@@ -482,6 +485,11 @@ type HTTPMatchRequest = v1alpha3.HTTPMatchRequest
 //
 // ```
 type HTTPRouteDestination = v1alpha3.HTTPRouteDestination
+
+// Added by Alibaba Cloud Service Mesh (ASM)
+// Fall back for HTTP Route
+type HTTPRouteFallbackTarget = v1alpha3.HTTPRouteFallbackTarget
+type HTTPRouteFallback = v1alpha3.HTTPRouteFallback
 
 // L4 routing rule weighted destination.
 type RouteDestination = v1alpha3.RouteDestination

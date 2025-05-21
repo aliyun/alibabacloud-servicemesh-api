@@ -41,3 +41,5 @@ genbin/
 
 # Contains the built artifacts
 out/
+
+bin/
