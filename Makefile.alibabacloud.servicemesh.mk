@@ -8,7 +8,7 @@ OUTPUT_BASE ?= asm-generated-clients
 CLIENT_GEN_VERSION = v0.27.0
 LISTERS_GEN_VERSION = v0.27.0
 INFORMERS_GEN_VERSION = v0.27.0
-CONTROLLER_GEN_VERSION = v0.17.1
+CONTROLLER_GEN_VERSION = v0.18.0
 
 .PHONY: gen-asm-clients client-gen lister-gen informer-gen client-gen-tools gen-deep-copy
 
@@ -21,7 +21,7 @@ gen-deep-copy: controller-gen
 	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./..."
 
 controller-gen:
-	$(call go-get-tool,$(BIN_DIR)/controller-gen,/sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_GEN_VERSION))
+	$(call go-get-tool,$(BIN_DIR)/controller-gen,sigs.k8s.io/controller-tools/cmd/controller-gen@$(CONTROLLER_GEN_VERSION))
 
 client-gen:
 	$(call go-get-tool,$(BIN_DIR)/client-gen,k8s.io/code-generator/cmd/client-gen@$(CLIENT_GEN_VERSION))
