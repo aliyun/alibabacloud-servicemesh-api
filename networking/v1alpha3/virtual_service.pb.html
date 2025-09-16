@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.VirtualService
 aliases: [/docs/reference/config/networking/v1alpha3/virtual-service]
-number_of_entries: 30
+number_of_entries: 33
 ---
 <p>Configuration affecting traffic routing. Here are a few terms useful to define
 in the context of traffic routing.</p>
@@ -578,6 +578,51 @@ for further details about cross origin resource sharing.</p>
 <td>
 <p>Header manipulation rules</p>
 
+</td>
+</tr>
+<tr id="HTTPRoute-header_to_dynamic_subset_key">
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-header_to_dynamic_subset_key">headerToDynamicSubsetKey</a></code></div>
+<div class="type"><a href="#HTTPRoute-HeaderToDynamicSubsetKey">HeaderToDynamicSubsetKey[]</a></div>
+</div></td>
+<td>
+<p>&mdash; end added by asm &mdash;</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h3 id="HTTPRoute-HeaderToDynamicSubsetKey">HeaderToDynamicSubsetKey</h3>
+<section>
+<p>&mdash; added by asm &mdash;</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPRoute-HeaderToDynamicSubsetKey-header">
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-HeaderToDynamicSubsetKey-header">header</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRoute-HeaderToDynamicSubsetKey-key">
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-HeaderToDynamicSubsetKey-key">key</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRoute-HeaderToDynamicSubsetKey-defaultValue">
+<td><div class="field"><div class="name"><code><a href="#HTTPRoute-HeaderToDynamicSubsetKey-defaultValue">defaultValue</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
 </td>
 </tr>
 </tbody>
@@ -1280,6 +1325,79 @@ Otherwise, if weight is <code>0</code>, the destination will not receive any tra
 <td>
 <p>Header manipulation rules</p>
 
+</td>
+</tr>
+<tr id="HTTPRouteDestination-fallback">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteDestination-fallback">fallback</a></code></div>
+<div class="type"><a href="#HTTPRouteFallback">HTTPRouteFallback</a></div>
+</div></td>
+<td>
+<p>Added by Alibaba Cloud Service Mesh (ASM)</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPRouteFallbackTarget">HTTPRouteFallbackTarget</h2>
+<section>
+<p>Added by Alibaba Cloud Service Mesh (ASM)
+Fall back for HTTP Route</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPRouteFallbackTarget-destination">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteFallbackTarget-destination">destination</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRouteFallbackTarget-host_rewrite">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteFallbackTarget-host_rewrite">hostRewrite</a></code></div>
+<div class="type">bool</div>
+</div></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h2 id="HTTPRouteFallback">HTTPRouteFallback</h2>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="HTTPRouteFallback-case">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteFallback-case">case</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRouteFallback-target">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteFallback-target">target</a></code></div>
+<div class="type"><a href="#Destination">Destination</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="HTTPRouteFallback-targets">
+<td><div class="field"><div class="name"><code><a href="#HTTPRouteFallback-targets">targets</a></code></div>
+<div class="type"><a href="#HTTPRouteFallbackTarget">HTTPRouteFallbackTarget[]</a></div>
+</div></td>
+<td>
 </td>
 </tr>
 </tbody>
