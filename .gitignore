@@ -35,7 +35,7 @@ bin/
 /protoc-tmp
 genbin/
 
-/vendor
+**/vendor
 
 .htmlproofer
 

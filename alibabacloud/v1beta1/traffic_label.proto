@@ -14,11 +14,6 @@
 
 syntax = "proto3";
 
-import "networking/v1alpha3/virtual_service.proto";
-
-import "networking/v1alpha3/sidecar.proto";
-
-
 // In the Alibaba Cloud Service Mesh, traffic labeling refers to marking traffic for more detailed
 // traffic control and management. By labeling traffic requests between application services
 // with specific labels, they can be divided into different services or versions, and operations
@@ -28,8 +23,10 @@ import "networking/v1alpha3/sidecar.proto";
 // `TrafficLabel` describes a way of traffic labeling. By defining specific traffic labeling custom resource,
 // traffic labeling can be configured for specific workloads or by namespace.
 
-
 package istio.alibabacloud.v1beta1;
+
+import "networking/v1alpha3/sidecar.proto";
+import "networking/v1alpha3/virtual_service.proto";
 
 option go_package = "istio.io/api/alibabacloud/v1beta1";
 
@@ -75,7 +72,6 @@ message TrafficLabel {
 
 // TrafficLabelRule describes the rule configuration of the traffic label.
 message TrafficLabelRule {
-
   // The labels to be attached
   repeated LabelVar labels = 2;
 
