@@ -5,7 +5,7 @@ location: https://istio.io/docs/reference/config/istio.mesh.v1alpha1.html
 layout: protoc-gen-docs
 generator: protoc-gen-docs
 weight: 20
-number_of_entries: 84
+number_of_entries: 87
 ---
 <p>Configuration affecting the service mesh as a whole.</p>
 
@@ -1025,6 +1025,15 @@ Default: true</p>
 configure an external SDS service to supply secrets for certain Gateways for example.
 This is useful for scenarios where the secrets are stored in an external secret store like Vault.
 The secret should be configured with sds://provider-name format.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-aggregate" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-aggregate">aggregate</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-AggregateProvider">AggregateProvider (oneof)</a></div>
+</div></td>
+<td>
+<p>Configures aggregate provider</p>
 
 </td>
 </tr>
@@ -2675,6 +2684,127 @@ be injected.</p>
 </tbody>
 </table>
 </section>
+<h4 id="MeshConfig-ExtensionProvider-AggregateProvider">AggregateProvider</h4>
+<section>
+<p>The following example configures zipkin-intranet provider for cluster-a, and cluster-c
+opentelemetry provider for cluster-b, zipkin provider for the rest.</p>
+<pre><code class="language-yaml">aggregate:
+  defaultProvider:
+    name: zipkin
+  uniqueProviders:
+  - provider:
+      name: zipkin-intranet
+    clusters:
+    - id: cluster-a
+    - id: cluster-c
+  - provider:
+      name: opentelemetry
+    clusters:
+    - id: cluster-b
+    - id: cluster-c
+</code></pre>
+<p>NOTE: If a cluster refered different providers, the first provider refered will be used.</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-default_provider">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-default_provider">defaultProvider</a></code></div>
+<div class="type"><a href="https://istio.io/docs/reference/config/telemetry.html#ProviderRef">ProviderRef</a></div>
+</div></td>
+<td>
+<p>REQUIRED. The default provider to use when no unique provider is matched.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-unique_providers">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-unique_providers">uniqueProviders</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef">UniqueProviderRef[]</a></div>
+</div></td>
+<td>
+<p>List of unique providers that override the default provider.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h5 id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef">UniqueProviderRef</h5>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-provider">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-provider">provider</a></code></div>
+<div class="type"><a href="https://istio.io/docs/reference/config/telemetry.html#ProviderRef">ProviderRef</a></div>
+</div></td>
+<td>
+<p>REQUIRED. The unique provider to use when a proxy is matched.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-clusters">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-UniqueProviderRef-clusters">clusters</a></code></div>
+<div class="type"><a href="#MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef">ClusterRef[]</a></div>
+</div></td>
+<td>
+<p>List of clusters that will use the provider.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h5 id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef">ClusterRef</h5>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-id">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-id">id</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>REQUIRE. Id of the cluster, will be used as proxy selector.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-name">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-name">name</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>Name of the cluster, won&rsquo;t be used as selector currently, just for more readability.</p>
+
+</td>
+</tr>
+<tr id="MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-region">
+<td><div class="field"><div class="name"><code><a href="#MeshConfig-ExtensionProvider-AggregateProvider-ClusterRef-region">region</a></code></div>
+<div class="type">string</div>
+</div></td>
+<td>
+<p>Region of the cluster, won&rsquo;t be used as selector currently, just for more readability.</p>
+
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h3 id="MeshConfig-DefaultProviders">DefaultProviders</h3>
 <section>
 <p>Holds the name references to the providers that will be used by default
@@ -3443,6 +3573,20 @@ downstream connections on a gateway.</p>
 
 </td>
 </tr>
+<tr id="Topology-xff_trusted_cidrs">
+<td><div class="field"><div class="name"><code><a href="#Topology-xff_trusted_cidrs">xffTrustedCidrs</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="Topology-skip_xff_append">
+<td><div class="field"><div class="name"><code><a href="#Topology-skip_xff_append">skipXffAppend</a></code></div>
+<div class="type"><a href="https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#boolvalue">BoolValue</a></div>
+</div></td>
+<td>
+</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -3974,6 +4118,15 @@ Note: currently all headers are enabled by default.</p>
   metadataExchangeHeaders:
     mode: IN_MESH
 </code></pre>
+
+</td>
+</tr>
+<tr id="ProxyConfig-https_http2_disabled">
+<td><div class="field"><div class="name"><code><a href="#ProxyConfig-https_http2_disabled">httpsHttp2Disabled</a></code></div>
+<div class="type">bool</div>
+</div></td>
+<td>
+<p>Boolean flag for enabling/disabling the http2 protocol</p>
 
 </td>
 </tr>

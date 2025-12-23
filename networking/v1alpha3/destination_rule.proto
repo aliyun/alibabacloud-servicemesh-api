@@ -435,13 +435,12 @@ message LoadBalancerSettings {
     // LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.
     LEAST_REQUEST = 5;
 
-        
-    // The peak-ewma algorithm selects 2 endpoints via p2c and then compares 
-    // their scores,  which are calculated based on multiple factors, including: 
-    // latency, error rate, and the number of in-flight requests. endpoint got 
+    // The peak-ewma algorithm selects 2 endpoints via p2c and then compares
+    // their scores,  which are calculated based on multiple factors, including:
+    // latency, error rate, and the number of in-flight requests. endpoint got
     // higher score wins.
     PEAK_EWMA = 6;
-  };
+  }
 
   // Consistent Hash-based load balancing can be used to provide soft
   // session affinity based on HTTP headers, cookies or other
@@ -541,20 +540,20 @@ message LoadBalancerSettings {
       NO_FALLBACK = 1;
       ANY_ENDPOINT = 2;
       DEFAULT_SUBSET = 3;
-    };
+    }
     FallbackPolicy fallback_policy = 1;
     map<string, string> default_subset = 2;
     message SubsetSelector {
       FallbackPolicy fallback_policy = 1;
       repeated string keys = 2;
-    };
+    }
     repeated SubsetSelector subset_selectors = 3;
     enum LbPolicy {
       UNDEFINED = 0;
       RANDOM = 1;
       ROUND_ROBIN = 2;
       LEAST_REQUEST = 3;
-    };
+    }
     LbPolicy lb_policy = 4;
   }
   // --- end added by asm ---

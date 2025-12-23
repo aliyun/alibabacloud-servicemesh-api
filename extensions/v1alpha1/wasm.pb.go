@@ -306,21 +306,26 @@ const (
 	PluginPhase_AUTHZ PluginPhase = 2
 	// Insert plugin before Istio stats filters and after Istio authorization filters.
 	PluginPhase_STATS PluginPhase = 3
+	// begin added by asm
+	// Insert plugin before Http router filter.
+	PluginPhase_ASM_ROUTER PluginPhase = 100 // end added by asm
 )
 
 // Enum value maps for PluginPhase.
 var (
 	PluginPhase_name = map[int32]string{
-		0: "UNSPECIFIED_PHASE",
-		1: "AUTHN",
-		2: "AUTHZ",
-		3: "STATS",
+		0:   "UNSPECIFIED_PHASE",
+		1:   "AUTHN",
+		2:   "AUTHZ",
+		3:   "STATS",
+		100: "ASM_ROUTER",
 	}
 	PluginPhase_value = map[string]int32{
 		"UNSPECIFIED_PHASE": 0,
 		"AUTHN":             1,
 		"AUTHZ":             2,
 		"STATS":             3,
+		"ASM_ROUTER":        100,
 	}
 )
 
@@ -1037,12 +1042,14 @@ const file_extensions_v1alpha1_wasm_proto_rawDesc = "" +
 	"PluginType\x12\x1b\n" +
 	"\x17UNSPECIFIED_PLUGIN_TYPE\x10\x00\x12\b\n" +
 	"\x04HTTP\x10\x01\x12\v\n" +
-	"\aNETWORK\x10\x02*E\n" +
+	"\aNETWORK\x10\x02*U\n" +
 	"\vPluginPhase\x12\x15\n" +
 	"\x11UNSPECIFIED_PHASE\x10\x00\x12\t\n" +
 	"\x05AUTHN\x10\x01\x12\t\n" +
 	"\x05AUTHZ\x10\x02\x12\t\n" +
-	"\x05STATS\x10\x03*B\n" +
+	"\x05STATS\x10\x03\x12\x0e\n" +
+	"\n" +
+	"ASM_ROUTER\x10d*B\n" +
 	"\n" +
 	"PullPolicy\x12\x16\n" +
 	"\x12UNSPECIFIED_POLICY\x10\x00\x12\x10\n" +
