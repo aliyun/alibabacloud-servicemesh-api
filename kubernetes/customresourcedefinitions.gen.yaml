@@ -102,12 +102,13 @@ spec:
                 description: |-
                   Determines where in the filter chain this `WasmPlugin` is to be injected.
 
-                  Valid Options: AUTHN, AUTHZ, STATS
+                  Valid Options: AUTHN, AUTHZ, STATS, ASM_ROUTER
                 enum:
                 - UNSPECIFIED_PHASE
                 - AUTHN
                 - AUTHZ
                 - STATS
+                - ASM_ROUTER
                 type: string
               pluginConfig:
                 description: The configuration that will be passed on to the plugin.
@@ -370,6 +371,439 @@ metadata:
     chart: istio
     heritage: Tiller
     release: istio
+  name: trafficlabels.istio.alibabacloud.com
+spec:
+  group: istio.alibabacloud.com
+  names:
+    categories:
+    - alibabacloud-com
+    - istio-alibabacloud-com
+    kind: TrafficLabel
+    listKind: TrafficLabelList
+    plural: trafficlabels
+    shortNames:
+    - tl
+    singular: trafficlabel
+  scope: Namespaced
+  versions:
+  - name: v1beta1
+    schema:
+      openAPIV3Schema:
+        properties:
+          spec:
+            description: '`TrafficLabel` describes the configuration to apply the
+              traffic label for specific workloads or by namespace.'
+            properties:
+              hosts:
+                description: The scope of the destination host which the traffic label
+                  rules should be applied.
+                items:
+                  type: string
+                type: array
+              rules:
+                description: The traffic rules for configuring the tags.
+                items:
+                  properties:
+                    attachTo:
+                      items:
+                        type: string
+                      type: array
+                    http:
+                      items:
+                        properties:
+                          attachTo:
+                            items:
+                              type: string
+                            type: array
+                          labels:
+                            items:
+                              properties:
+                                name:
+                                  type: string
+                                overwrite:
+                                  type: boolean
+                                valueFrom:
+                                  description: The value of label.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                          match:
+                            description: Match conditions to be satisfied for the
+                              rule to be activated.
+                            items:
+                              properties:
+                                authority:
+                                  description: 'HTTP Authority values are case-sensitive
+                                    and formatted as follows: - `exact: "value"` for
+                                    exact string match - `prefix: "value"` for prefix-based
+                                    match - `regex: "value"` for [RE2 style regex-based
+                                    match](https://github.com/google/re2/wiki/Syntax).'
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                      type: string
+                                  type: object
+                                gateways:
+                                  description: Names of gateways where the rule should
+                                    be applied.
+                                  items:
+                                    type: string
+                                  type: array
+                                headers:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                        type: string
+                                    type: object
+                                  description: The header keys must be lowercase and
+                                    use hyphen as the separator, e.g.
+                                  type: object
+                                ignoreUriCase:
+                                  description: Flag to specify whether the URI matching
+                                    should be case-insensitive.
+                                  type: boolean
+                                method:
+                                  description: 'HTTP Method values are case-sensitive
+                                    and formatted as follows: - `exact: "value"` for
+                                    exact string match - `prefix: "value"` for prefix-based
+                                    match - `regex: "value"` for [RE2 style regex-based
+                                    match](https://github.com/google/re2/wiki/Syntax).'
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                      type: string
+                                  type: object
+                                name:
+                                  description: The name assigned to a match.
+                                  type: string
+                                port:
+                                  description: Specifies the ports on the host that
+                                    is being addressed.
+                                  maximum: 4294967295
+                                  minimum: 0
+                                  type: integer
+                                queryParams:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                        type: string
+                                    type: object
+                                  description: Query parameters for matching.
+                                  type: object
+                                scheme:
+                                  description: 'URI Scheme values are case-sensitive
+                                    and formatted as follows: - `exact: "value"` for
+                                    exact string match - `prefix: "value"` for prefix-based
+                                    match - `regex: "value"` for [RE2 style regex-based
+                                    match](https://github.com/google/re2/wiki/Syntax).'
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                      type: string
+                                  type: object
+                                sourceLabels:
+                                  additionalProperties:
+                                    type: string
+                                  description: One or more labels that constrain the
+                                    applicability of a rule to source (client) workloads
+                                    with the given labels.
+                                  type: object
+                                sourceNamespace:
+                                  description: Source namespace constraining the applicability
+                                    of a rule to workloads in that namespace.
+                                  type: string
+                                statPrefix:
+                                  description: The human readable prefix to use when
+                                    emitting statistics for this route.
+                                  type: string
+                                uri:
+                                  description: 'URI to match values are case-sensitive
+                                    and formatted as follows: - `exact: "value"` for
+                                    exact string match - `prefix: "value"` for prefix-based
+                                    match - `regex: "value"` for [RE2 style regex-based
+                                    match](https://github.com/google/re2/wiki/Syntax).'
+                                  oneOf:
+                                  - not:
+                                      anyOf:
+                                      - required:
+                                        - exact
+                                      - required:
+                                        - prefix
+                                      - required:
+                                        - regex
+                                  - required:
+                                    - exact
+                                  - required:
+                                    - prefix
+                                  - required:
+                                    - regex
+                                  properties:
+                                    exact:
+                                      type: string
+                                    prefix:
+                                      type: string
+                                    regex:
+                                      description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                      type: string
+                                  type: object
+                                withoutHeaders:
+                                  additionalProperties:
+                                    oneOf:
+                                    - not:
+                                        anyOf:
+                                        - required:
+                                          - exact
+                                        - required:
+                                          - prefix
+                                        - required:
+                                          - regex
+                                    - required:
+                                      - exact
+                                    - required:
+                                      - prefix
+                                    - required:
+                                      - regex
+                                    properties:
+                                      exact:
+                                        type: string
+                                      prefix:
+                                        type: string
+                                      regex:
+                                        description: '[RE2 style regex-based match](https://github.com/google/re2/wiki/Syntax).'
+                                        type: string
+                                    type: object
+                                  description: withoutHeader has the same syntax with
+                                    the header, but has opposite meaning.
+                                  type: object
+                              type: object
+                            type: array
+                        type: object
+                      type: array
+                    labels:
+                      items:
+                        properties:
+                          name:
+                            type: string
+                          overwrite:
+                            type: boolean
+                          valueFrom:
+                            description: The value of label.
+                            items:
+                              type: string
+                            type: array
+                        type: object
+                      type: array
+                    protocols:
+                      type: string
+                  type: object
+                type: array
+              workloadSelector:
+                description: This refers to the scope of the workload to which the
+                  traffic labels will be applied.
+                properties:
+                  labels:
+                    additionalProperties:
+                      maxLength: 63
+                      type: string
+                      x-kubernetes-validations:
+                      - message: wildcard is not supported in selector
+                        rule: '!self.contains("*")'
+                    description: One or more labels that indicate a specific set of
+                      pods/VMs on which the configuration should be applied.
+                    maxProperties: 256
+                    type: object
+                type: object
+            type: object
+          status:
+            properties:
+              conditions:
+                description: Current service state of the resource.
+                items:
+                  properties:
+                    lastProbeTime:
+                      description: Last time we probed the condition.
+                      format: date-time
+                      type: string
+                    lastTransitionTime:
+                      description: Last time the condition transitioned from one status
+                        to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: Human-readable message indicating details about
+                        last transition.
+                      type: string
+                    observedGeneration:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      description: Resource Generation to which the Condition refers.
+                      x-kubernetes-int-or-string: true
+                    reason:
+                      description: Unique, one-word, CamelCase reason for the condition's
+                        last transition.
+                      type: string
+                    status:
+                      description: Status is the status of the condition.
+                      type: string
+                    type:
+                      description: Type is the type of the condition.
+                      type: string
+                  type: object
+                type: array
+              observedGeneration:
+                anyOf:
+                - type: integer
+                - type: string
+                x-kubernetes-int-or-string: true
+              validationMessages:
+                description: Includes any errors or warnings detected by Istio's analyzers.
+                items:
+                  properties:
+                    documentationUrl:
+                      description: A url pointing to the Istio documentation for this
+                        specific error type.
+                      type: string
+                    level:
+                      description: |-
+                        Represents how severe a message is.
+
+                        Valid Options: UNKNOWN, ERROR, WARNING, INFO
+                      enum:
+                      - UNKNOWN
+                      - ERROR
+                      - WARNING
+                      - INFO
+                      type: string
+                    type:
+                      properties:
+                        code:
+                          description: A 7 character code matching `^IST[0-9]{4}$`
+                            intended to uniquely identify the message type.
+                          type: string
+                        name:
+                          description: A human-readable name for the message type.
+                          type: string
+                      type: object
+                  type: object
+                type: array
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    "helm.sh/resource-policy": keep
+  labels:
+    app: istio-pilot
+    chart: istio
+    heritage: Tiller
+    release: istio
   name: destinationrules.networking.istio.io
 spec:
   group: networking.istio.io
@@ -553,10 +987,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -655,6 +1093,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -707,7 +1194,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -715,6 +1202,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -931,10 +1419,14 @@ spec:
                                       - simple
                                     - required:
                                       - consistentHash
+                                    - required:
+                                      - dynamicSubset
                                 - required:
                                   - simple
                                 - required:
                                   - consistentHash
+                                - required:
+                                  - dynamicSubset
                                 properties:
                                   consistentHash:
                                     allOf:
@@ -1038,6 +1530,55 @@ spec:
                                         description: Hash based on the source IP address.
                                         type: boolean
                                     type: object
+                                  dynamicSubset:
+                                    properties:
+                                      defaultSubset:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      lbPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                        enum:
+                                        - UNDEFINED
+                                        - RANDOM
+                                        - ROUND_ROBIN
+                                        - LEAST_REQUEST
+                                        type: string
+                                      subsetSelectors:
+                                        items:
+                                          properties:
+                                            fallbackPolicy:
+                                              description: |2-
+
+
+                                                Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                              enum:
+                                              - UNSPECIFIED
+                                              - NO_FALLBACK
+                                              - ANY_ENDPOINT
+                                              - DEFAULT_SUBSET
+                                              type: string
+                                            keys:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
                                   localityLbSetting:
                                     properties:
                                       distribute:
@@ -1090,7 +1631,7 @@ spec:
                                     description: |2-
 
 
-                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                                     enum:
                                     - UNSPECIFIED
                                     - LEAST_CONN
@@ -1098,6 +1639,7 @@ spec:
                                     - PASSTHROUGH
                                     - ROUND_ROBIN
                                     - LEAST_REQUEST
+                                    - PEAK_EWMA
                                     type: string
                                   warmup:
                                     description: Represents the warmup configuration
@@ -1488,10 +2030,14 @@ spec:
                           - simple
                         - required:
                           - consistentHash
+                        - required:
+                          - dynamicSubset
                     - required:
                       - simple
                     - required:
                       - consistentHash
+                    - required:
+                      - dynamicSubset
                     properties:
                       consistentHash:
                         allOf:
@@ -1589,6 +2135,55 @@ spec:
                             description: Hash based on the source IP address.
                             type: boolean
                         type: object
+                      dynamicSubset:
+                        properties:
+                          defaultSubset:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          fallbackPolicy:
+                            description: |2-
+
+
+                              Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                            enum:
+                            - UNSPECIFIED
+                            - NO_FALLBACK
+                            - ANY_ENDPOINT
+                            - DEFAULT_SUBSET
+                            type: string
+                          lbPolicy:
+                            description: |2-
+
+
+                              Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                            enum:
+                            - UNDEFINED
+                            - RANDOM
+                            - ROUND_ROBIN
+                            - LEAST_REQUEST
+                            type: string
+                          subsetSelectors:
+                            items:
+                              properties:
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                keys:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
                       localityLbSetting:
                         properties:
                           distribute:
@@ -1640,7 +2235,7 @@ spec:
                         description: |2-
 
 
-                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                         enum:
                         - UNSPECIFIED
                         - LEAST_CONN
@@ -1648,6 +2243,7 @@ spec:
                         - PASSTHROUGH
                         - ROUND_ROBIN
                         - LEAST_REQUEST
+                        - PEAK_EWMA
                         type: string
                       warmup:
                         description: Represents the warmup configuration of Service.
@@ -1859,10 +2455,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -1961,6 +2561,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -2013,7 +2662,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -2021,6 +2670,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -2554,10 +3204,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -2656,6 +3310,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -2708,7 +3411,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -2716,6 +3419,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -2932,10 +3636,14 @@ spec:
                                       - simple
                                     - required:
                                       - consistentHash
+                                    - required:
+                                      - dynamicSubset
                                 - required:
                                   - simple
                                 - required:
                                   - consistentHash
+                                - required:
+                                  - dynamicSubset
                                 properties:
                                   consistentHash:
                                     allOf:
@@ -3039,6 +3747,55 @@ spec:
                                         description: Hash based on the source IP address.
                                         type: boolean
                                     type: object
+                                  dynamicSubset:
+                                    properties:
+                                      defaultSubset:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      lbPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                        enum:
+                                        - UNDEFINED
+                                        - RANDOM
+                                        - ROUND_ROBIN
+                                        - LEAST_REQUEST
+                                        type: string
+                                      subsetSelectors:
+                                        items:
+                                          properties:
+                                            fallbackPolicy:
+                                              description: |2-
+
+
+                                                Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                              enum:
+                                              - UNSPECIFIED
+                                              - NO_FALLBACK
+                                              - ANY_ENDPOINT
+                                              - DEFAULT_SUBSET
+                                              type: string
+                                            keys:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
                                   localityLbSetting:
                                     properties:
                                       distribute:
@@ -3091,7 +3848,7 @@ spec:
                                     description: |2-
 
 
-                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                                     enum:
                                     - UNSPECIFIED
                                     - LEAST_CONN
@@ -3099,6 +3856,7 @@ spec:
                                     - PASSTHROUGH
                                     - ROUND_ROBIN
                                     - LEAST_REQUEST
+                                    - PEAK_EWMA
                                     type: string
                                   warmup:
                                     description: Represents the warmup configuration
@@ -3489,10 +4247,14 @@ spec:
                           - simple
                         - required:
                           - consistentHash
+                        - required:
+                          - dynamicSubset
                     - required:
                       - simple
                     - required:
                       - consistentHash
+                    - required:
+                      - dynamicSubset
                     properties:
                       consistentHash:
                         allOf:
@@ -3590,6 +4352,55 @@ spec:
                             description: Hash based on the source IP address.
                             type: boolean
                         type: object
+                      dynamicSubset:
+                        properties:
+                          defaultSubset:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          fallbackPolicy:
+                            description: |2-
+
+
+                              Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                            enum:
+                            - UNSPECIFIED
+                            - NO_FALLBACK
+                            - ANY_ENDPOINT
+                            - DEFAULT_SUBSET
+                            type: string
+                          lbPolicy:
+                            description: |2-
+
+
+                              Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                            enum:
+                            - UNDEFINED
+                            - RANDOM
+                            - ROUND_ROBIN
+                            - LEAST_REQUEST
+                            type: string
+                          subsetSelectors:
+                            items:
+                              properties:
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                keys:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
                       localityLbSetting:
                         properties:
                           distribute:
@@ -3641,7 +4452,7 @@ spec:
                         description: |2-
 
 
-                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                         enum:
                         - UNSPECIFIED
                         - LEAST_CONN
@@ -3649,6 +4460,7 @@ spec:
                         - PASSTHROUGH
                         - ROUND_ROBIN
                         - LEAST_REQUEST
+                        - PEAK_EWMA
                         type: string
                       warmup:
                         description: Represents the warmup configuration of Service.
@@ -3860,10 +4672,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -3962,6 +4778,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -4014,7 +4879,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -4022,6 +4887,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -4555,10 +5421,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -4657,6 +5527,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -4709,7 +5628,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -4717,6 +5636,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -4933,10 +5853,14 @@ spec:
                                       - simple
                                     - required:
                                       - consistentHash
+                                    - required:
+                                      - dynamicSubset
                                 - required:
                                   - simple
                                 - required:
                                   - consistentHash
+                                - required:
+                                  - dynamicSubset
                                 properties:
                                   consistentHash:
                                     allOf:
@@ -5040,6 +5964,55 @@ spec:
                                         description: Hash based on the source IP address.
                                         type: boolean
                                     type: object
+                                  dynamicSubset:
+                                    properties:
+                                      defaultSubset:
+                                        additionalProperties:
+                                          type: string
+                                        type: object
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      lbPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                        enum:
+                                        - UNDEFINED
+                                        - RANDOM
+                                        - ROUND_ROBIN
+                                        - LEAST_REQUEST
+                                        type: string
+                                      subsetSelectors:
+                                        items:
+                                          properties:
+                                            fallbackPolicy:
+                                              description: |2-
+
+
+                                                Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                              enum:
+                                              - UNSPECIFIED
+                                              - NO_FALLBACK
+                                              - ANY_ENDPOINT
+                                              - DEFAULT_SUBSET
+                                              type: string
+                                            keys:
+                                              items:
+                                                type: string
+                                              type: array
+                                          type: object
+                                        type: array
+                                    type: object
                                   localityLbSetting:
                                     properties:
                                       distribute:
@@ -5092,7 +6065,7 @@ spec:
                                     description: |2-
 
 
-                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                      Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                                     enum:
                                     - UNSPECIFIED
                                     - LEAST_CONN
@@ -5100,6 +6073,7 @@ spec:
                                     - PASSTHROUGH
                                     - ROUND_ROBIN
                                     - LEAST_REQUEST
+                                    - PEAK_EWMA
                                     type: string
                                   warmup:
                                     description: Represents the warmup configuration
@@ -5490,10 +6464,14 @@ spec:
                           - simple
                         - required:
                           - consistentHash
+                        - required:
+                          - dynamicSubset
                     - required:
                       - simple
                     - required:
                       - consistentHash
+                    - required:
+                      - dynamicSubset
                     properties:
                       consistentHash:
                         allOf:
@@ -5591,6 +6569,55 @@ spec:
                             description: Hash based on the source IP address.
                             type: boolean
                         type: object
+                      dynamicSubset:
+                        properties:
+                          defaultSubset:
+                            additionalProperties:
+                              type: string
+                            type: object
+                          fallbackPolicy:
+                            description: |2-
+
+
+                              Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                            enum:
+                            - UNSPECIFIED
+                            - NO_FALLBACK
+                            - ANY_ENDPOINT
+                            - DEFAULT_SUBSET
+                            type: string
+                          lbPolicy:
+                            description: |2-
+
+
+                              Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                            enum:
+                            - UNDEFINED
+                            - RANDOM
+                            - ROUND_ROBIN
+                            - LEAST_REQUEST
+                            type: string
+                          subsetSelectors:
+                            items:
+                              properties:
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                keys:
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            type: array
+                        type: object
                       localityLbSetting:
                         properties:
                           distribute:
@@ -5642,7 +6669,7 @@ spec:
                         description: |2-
 
 
-                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                          Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                         enum:
                         - UNSPECIFIED
                         - LEAST_CONN
@@ -5650,6 +6677,7 @@ spec:
                         - PASSTHROUGH
                         - ROUND_ROBIN
                         - LEAST_REQUEST
+                        - PEAK_EWMA
                         type: string
                       warmup:
                         description: Represents the warmup configuration of Service.
@@ -5861,10 +6889,14 @@ spec:
                                 - simple
                               - required:
                                 - consistentHash
+                              - required:
+                                - dynamicSubset
                           - required:
                             - simple
                           - required:
                             - consistentHash
+                          - required:
+                            - dynamicSubset
                           properties:
                             consistentHash:
                               allOf:
@@ -5963,6 +6995,55 @@ spec:
                                   description: Hash based on the source IP address.
                                   type: boolean
                               type: object
+                            dynamicSubset:
+                              properties:
+                                defaultSubset:
+                                  additionalProperties:
+                                    type: string
+                                  type: object
+                                fallbackPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                  enum:
+                                  - UNSPECIFIED
+                                  - NO_FALLBACK
+                                  - ANY_ENDPOINT
+                                  - DEFAULT_SUBSET
+                                  type: string
+                                lbPolicy:
+                                  description: |2-
+
+
+                                    Valid Options: RANDOM, ROUND_ROBIN, LEAST_REQUEST
+                                  enum:
+                                  - UNDEFINED
+                                  - RANDOM
+                                  - ROUND_ROBIN
+                                  - LEAST_REQUEST
+                                  type: string
+                                subsetSelectors:
+                                  items:
+                                    properties:
+                                      fallbackPolicy:
+                                        description: |2-
+
+
+                                          Valid Options: NO_FALLBACK, ANY_ENDPOINT, DEFAULT_SUBSET
+                                        enum:
+                                        - UNSPECIFIED
+                                        - NO_FALLBACK
+                                        - ANY_ENDPOINT
+                                        - DEFAULT_SUBSET
+                                        type: string
+                                      keys:
+                                        items:
+                                          type: string
+                                        type: array
+                                    type: object
+                                  type: array
+                              type: object
                             localityLbSetting:
                               properties:
                                 distribute:
@@ -6015,7 +7096,7 @@ spec:
                               description: |2-
 
 
-                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST
+                                Valid Options: LEAST_CONN, RANDOM, PASSTHROUGH, ROUND_ROBIN, LEAST_REQUEST, PEAK_EWMA
                               enum:
                               - UNSPECIFIED
                               - LEAST_CONN
@@ -6023,6 +7104,7 @@ spec:
                               - PASSTHROUGH
                               - ROUND_ROBIN
                               - LEAST_REQUEST
+                              - PEAK_EWMA
                               type: string
                             warmup:
                               description: Represents the warmup configuration of
@@ -10802,6 +11884,17 @@ spec:
                               type: object
                           type: object
                       type: object
+                    headerToDynamicSubsetKey:
+                      items:
+                        properties:
+                          defaultValue:
+                            type: string
+                          header:
+                            type: string
+                          key:
+                            type: string
+                        type: object
+                      type: array
                     headers:
                       properties:
                         request:
@@ -11299,6 +12392,61 @@ spec:
                                 type: string
                             required:
                             - host
+                            type: object
+                          fallback:
+                            properties:
+                              case:
+                                type: string
+                              target:
+                                properties:
+                                  host:
+                                    description: The name of a service from the service
+                                      registry.
+                                    type: string
+                                  port:
+                                    description: Specifies the port on the host that
+                                      is being addressed.
+                                    properties:
+                                      number:
+                                        maximum: 4294967295
+                                        minimum: 0
+                                        type: integer
+                                    type: object
+                                  subset:
+                                    description: The name of a subset within the service.
+                                    type: string
+                                required:
+                                - host
+                                type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:
@@ -11854,6 +13002,17 @@ spec:
                               type: object
                           type: object
                       type: object
+                    headerToDynamicSubsetKey:
+                      items:
+                        properties:
+                          defaultValue:
+                            type: string
+                          header:
+                            type: string
+                          key:
+                            type: string
+                        type: object
+                      type: array
                     headers:
                       properties:
                         request:
@@ -12351,6 +13510,61 @@ spec:
                                 type: string
                             required:
                             - host
+                            type: object
+                          fallback:
+                            properties:
+                              case:
+                                type: string
+                              target:
+                                properties:
+                                  host:
+                                    description: The name of a service from the service
+                                      registry.
+                                    type: string
+                                  port:
+                                    description: Specifies the port on the host that
+                                      is being addressed.
+                                    properties:
+                                      number:
+                                        maximum: 4294967295
+                                        minimum: 0
+                                        type: integer
+                                    type: object
+                                  subset:
+                                    description: The name of a subset within the service.
+                                    type: string
+                                required:
+                                - host
+                                type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:
@@ -12906,6 +14120,17 @@ spec:
                               type: object
                           type: object
                       type: object
+                    headerToDynamicSubsetKey:
+                      items:
+                        properties:
+                          defaultValue:
+                            type: string
+                          header:
+                            type: string
+                          key:
+                            type: string
+                        type: object
+                      type: array
                     headers:
                       properties:
                         request:
@@ -13403,6 +14628,61 @@ spec:
                                 type: string
                             required:
                             - host
+                            type: object
+                          fallback:
+                            properties:
+                              case:
+                                type: string
+                              target:
+                                properties:
+                                  host:
+                                    description: The name of a service from the service
+                                      registry.
+                                    type: string
+                                  port:
+                                    description: Specifies the port on the host that
+                                      is being addressed.
+                                    properties:
+                                      number:
+                                        maximum: 4294967295
+                                        minimum: 0
+                                        type: integer
+                                    type: object
+                                  subset:
+                                    description: The name of a subset within the service.
+                                    type: string
+                                required:
+                                - host
+                                type: object
+                              targets:
+                                items:
+                                  properties:
+                                    destination:
+                                      properties:
+                                        host:
+                                          description: The name of a service from
+                                            the service registry.
+                                          type: string
+                                        port:
+                                          description: Specifies the port on the host
+                                            that is being addressed.
+                                          properties:
+                                            number:
+                                              maximum: 4294967295
+                                              minimum: 0
+                                              type: integer
+                                          type: object
+                                        subset:
+                                          description: The name of a subset within
+                                            the service.
+                                          type: string
+                                      required:
+                                      - host
+                                      type: object
+                                    hostRewrite:
+                                      type: boolean
+                                  type: object
+                                type: array
                             type: object
                           headers:
                             properties:

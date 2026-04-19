@@ -694,9 +694,11 @@ type Topology struct {
 	ForwardClientCertDetails ForwardClientCertDetails `protobuf:"varint,2,opt,name=forward_client_cert_details,json=forwardClientCertDetails,proto3,enum=istio.mesh.v1alpha1.ForwardClientCertDetails" json:"forward_client_cert_details,omitempty"`
 	// Enables [PROXY protocol](http://www.haproxy.org/download/1.5/doc/proxy-protocol.txt) for
 	// downstream connections on a gateway.
-	ProxyProtocol *Topology_ProxyProtocolConfiguration `protobuf:"bytes,3,opt,name=proxy_protocol,json=proxyProtocol,proto3" json:"proxy_protocol,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	ProxyProtocol   *Topology_ProxyProtocolConfiguration `protobuf:"bytes,3,opt,name=proxy_protocol,json=proxyProtocol,proto3" json:"proxy_protocol,omitempty"`
+	XffTrustedCidrs []string                             `protobuf:"bytes,200,rep,name=xff_trusted_cidrs,json=xffTrustedCidrs,proto3" json:"xff_trusted_cidrs,omitempty"`
+	SkipXffAppend   *wrappers.BoolValue                  `protobuf:"bytes,201,opt,name=skip_xff_append,json=skipXffAppend,proto3" json:"skip_xff_append,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Topology) Reset() {
@@ -746,6 +748,20 @@ func (x *Topology) GetForwardClientCertDetails() ForwardClientCertDetails {
 func (x *Topology) GetProxyProtocol() *Topology_ProxyProtocolConfiguration {
 	if x != nil {
 		return x.ProxyProtocol
+	}
+	return nil
+}
+
+func (x *Topology) GetXffTrustedCidrs() []string {
+	if x != nil {
+		return x.XffTrustedCidrs
+	}
+	return nil
+}
+
+func (x *Topology) GetSkipXffAppend() *wrappers.BoolValue {
+	if x != nil {
+		return x.SkipXffAppend
 	}
 	return nil
 }
@@ -1080,8 +1096,10 @@ type ProxyConfig struct {
 	// Defaults to true.
 	// Optional.
 	StatsCompression *wrappers.BoolValue `protobuf:"bytes,42,opt,name=stats_compression,json=statsCompression,proto3" json:"stats_compression,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Boolean flag for enabling/disabling the http2 protocol
+	HttpsHttp2Disabled bool `protobuf:"varint,100,opt,name=https_http2_disabled,json=httpsHttp2Disabled,proto3" json:"https_http2_disabled,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *ProxyConfig) Reset() {
@@ -1401,6 +1419,13 @@ func (x *ProxyConfig) GetStatsCompression() *wrappers.BoolValue {
 		return x.StatsCompression
 	}
 	return nil
+}
+
+func (x *ProxyConfig) GetHttpsHttp2Disabled() bool {
+	if x != nil {
+		return x.HttpsHttp2Disabled
+	}
+	return false
 }
 
 type isProxyConfig_ClusterName interface {
@@ -2914,11 +2939,13 @@ const file_mesh_v1alpha1_proxy_proto_rawDesc = "" +
 	"\x06tracer\"F\n" +
 	"\x03SDS\x12\x18\n" +
 	"\aenabled\x18\x01 \x01(\bR\aenabled\x12%\n" +
-	"\x0fk8s_sa_jwt_path\x18\x02 \x01(\tR\fk8sSaJwtPath\"\xa7\x02\n" +
+	"\x0fk8s_sa_jwt_path\x18\x02 \x01(\tR\fk8sSaJwtPath\"\x99\x03\n" +
 	"\bTopology\x12.\n" +
 	"\x13num_trusted_proxies\x18\x01 \x01(\rR\x11numTrustedProxies\x12l\n" +
 	"\x1bforward_client_cert_details\x18\x02 \x01(\x0e2-.istio.mesh.v1alpha1.ForwardClientCertDetailsR\x18forwardClientCertDetails\x12_\n" +
-	"\x0eproxy_protocol\x18\x03 \x01(\v28.istio.mesh.v1alpha1.Topology.ProxyProtocolConfigurationR\rproxyProtocol\x1a\x1c\n" +
+	"\x0eproxy_protocol\x18\x03 \x01(\v28.istio.mesh.v1alpha1.Topology.ProxyProtocolConfigurationR\rproxyProtocol\x12+\n" +
+	"\x11xff_trusted_cidrs\x18\xc8\x01 \x03(\tR\x0fxffTrustedCidrs\x12C\n" +
+	"\x0fskip_xff_append\x18\xc9\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\rskipXffAppend\x1a\x1c\n" +
 	"\x1aProxyProtocolConfiguration\"\xa8\x03\n" +
 	"\x12PrivateKeyProvider\x12N\n" +
 	"\bcryptomb\x18\x02 \x01(\v20.istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMbH\x00R\bcryptomb\x12?\n" +
@@ -2932,7 +2959,7 @@ const file_mesh_v1alpha1_proxy_proto_rawDesc = "" +
 	"poll_delay\x18\x01 \x01(\v2\x19.google.protobuf.DurationR\tpollDelay\x126\n" +
 	"\bfallback\x18\x02 \x01(\v2\x1a.google.protobuf.BoolValueR\bfallbackB\n" +
 	"\n" +
-	"\bprovider\"\xeb'\n" +
+	"\bprovider\"\x9d(\n" +
 	"\vProxyConfig\x12\x1f\n" +
 	"\vconfig_path\x18\x01 \x01(\tR\n" +
 	"configPath\x12\x1f\n" +
@@ -2976,7 +3003,8 @@ const file_mesh_v1alpha1_proxy_proto_rawDesc = "" +
 	"\rproxy_headers\x18' \x01(\v2-.istio.mesh.v1alpha1.ProxyConfig.ProxyHeadersR\fproxyHeaders\x12I\n" +
 	"\x13file_flush_interval\x18( \x01(\v2\x19.google.protobuf.DurationR\x11fileFlushInterval\x122\n" +
 	"\x16file_flush_min_size_kb\x18) \x01(\rR\x12fileFlushMinSizeKb\x12G\n" +
-	"\x11stats_compression\x18* \x01(\v2\x1a.google.protobuf.BoolValueR\x10statsCompression\x1a@\n" +
+	"\x11stats_compression\x18* \x01(\v2\x1a.google.protobuf.BoolValueR\x10statsCompression\x120\n" +
+	"\x14https_http2_disabled\x18d \x01(\bR\x12httpsHttp2Disabled\x1a@\n" +
 	"\x12ProxyMetadataEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a@\n" +
@@ -3123,71 +3151,72 @@ var file_mesh_v1alpha1_proxy_proto_depIdxs = []int32{
 	38, // 7: istio.mesh.v1alpha1.Tracing.enable_istio_tags:type_name -> google.protobuf.BoolValue
 	1,  // 8: istio.mesh.v1alpha1.Topology.forward_client_cert_details:type_name -> istio.mesh.v1alpha1.ForwardClientCertDetails
 	22, // 9: istio.mesh.v1alpha1.Topology.proxy_protocol:type_name -> istio.mesh.v1alpha1.Topology.ProxyProtocolConfiguration
-	23, // 10: istio.mesh.v1alpha1.PrivateKeyProvider.cryptomb:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb
-	24, // 11: istio.mesh.v1alpha1.PrivateKeyProvider.qat:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider.QAT
-	3,  // 12: istio.mesh.v1alpha1.ProxyConfig.tracing_service_name:type_name -> istio.mesh.v1alpha1.ProxyConfig.TracingServiceName
-	39, // 13: istio.mesh.v1alpha1.ProxyConfig.drain_duration:type_name -> google.protobuf.Duration
-	39, // 14: istio.mesh.v1alpha1.ProxyConfig.discovery_refresh_delay:type_name -> google.protobuf.Duration
-	0,  // 15: istio.mesh.v1alpha1.ProxyConfig.control_plane_auth_policy:type_name -> istio.mesh.v1alpha1.AuthenticationPolicy
-	40, // 16: istio.mesh.v1alpha1.ProxyConfig.concurrency:type_name -> google.protobuf.Int32Value
-	4,  // 17: istio.mesh.v1alpha1.ProxyConfig.interception_mode:type_name -> istio.mesh.v1alpha1.ProxyConfig.InboundInterceptionMode
-	6,  // 18: istio.mesh.v1alpha1.ProxyConfig.tracing:type_name -> istio.mesh.v1alpha1.Tracing
-	7,  // 19: istio.mesh.v1alpha1.ProxyConfig.sds:type_name -> istio.mesh.v1alpha1.SDS
-	11, // 20: istio.mesh.v1alpha1.ProxyConfig.envoy_access_log_service:type_name -> istio.mesh.v1alpha1.RemoteService
-	11, // 21: istio.mesh.v1alpha1.ProxyConfig.envoy_metrics_service:type_name -> istio.mesh.v1alpha1.RemoteService
-	25, // 22: istio.mesh.v1alpha1.ProxyConfig.proxy_metadata:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyMetadataEntry
-	26, // 23: istio.mesh.v1alpha1.ProxyConfig.runtime_values:type_name -> istio.mesh.v1alpha1.ProxyConfig.RuntimeValuesEntry
-	8,  // 24: istio.mesh.v1alpha1.ProxyConfig.gateway_topology:type_name -> istio.mesh.v1alpha1.Topology
-	39, // 25: istio.mesh.v1alpha1.ProxyConfig.termination_drain_duration:type_name -> google.protobuf.Duration
-	41, // 26: istio.mesh.v1alpha1.ProxyConfig.readiness_probe:type_name -> istio.networking.v1alpha3.ReadinessProbe
-	27, // 27: istio.mesh.v1alpha1.ProxyConfig.proxy_stats_matcher:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyStatsMatcher
-	38, // 28: istio.mesh.v1alpha1.ProxyConfig.hold_application_until_proxy_starts:type_name -> google.protobuf.BoolValue
-	42, // 29: istio.mesh.v1alpha1.ProxyConfig.image:type_name -> istio.networking.v1beta1.ProxyImage
-	9,  // 30: istio.mesh.v1alpha1.ProxyConfig.private_key_provider:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider
-	28, // 31: istio.mesh.v1alpha1.ProxyConfig.proxy_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders
-	39, // 32: istio.mesh.v1alpha1.ProxyConfig.file_flush_interval:type_name -> google.protobuf.Duration
-	38, // 33: istio.mesh.v1alpha1.ProxyConfig.stats_compression:type_name -> google.protobuf.BoolValue
-	37, // 34: istio.mesh.v1alpha1.RemoteService.tls_settings:type_name -> istio.networking.v1alpha3.ClientTLSSettings
-	43, // 35: istio.mesh.v1alpha1.RemoteService.tcp_keepalive:type_name -> istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive
-	44, // 36: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_attributes:type_name -> google.protobuf.Int64Value
-	44, // 37: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_annotations:type_name -> google.protobuf.Int64Value
-	44, // 38: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_message_events:type_name -> google.protobuf.Int64Value
-	2,  // 39: istio.mesh.v1alpha1.Tracing.OpenCensusAgent.context:type_name -> istio.mesh.v1alpha1.Tracing.OpenCensusAgent.TraceContext
-	18, // 40: istio.mesh.v1alpha1.Tracing.CustomTag.literal:type_name -> istio.mesh.v1alpha1.Tracing.Literal
-	19, // 41: istio.mesh.v1alpha1.Tracing.CustomTag.environment:type_name -> istio.mesh.v1alpha1.Tracing.Environment
-	20, // 42: istio.mesh.v1alpha1.Tracing.CustomTag.header:type_name -> istio.mesh.v1alpha1.Tracing.RequestHeader
-	17, // 43: istio.mesh.v1alpha1.Tracing.CustomTagsEntry.value:type_name -> istio.mesh.v1alpha1.Tracing.CustomTag
-	39, // 44: istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb.poll_delay:type_name -> google.protobuf.Duration
-	38, // 45: istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb.fallback:type_name -> google.protobuf.BoolValue
-	39, // 46: istio.mesh.v1alpha1.PrivateKeyProvider.QAT.poll_delay:type_name -> google.protobuf.Duration
-	38, // 47: istio.mesh.v1alpha1.PrivateKeyProvider.QAT.fallback:type_name -> google.protobuf.BoolValue
-	1,  // 48: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.forwarded_client_cert:type_name -> istio.mesh.v1alpha1.ForwardClientCertDetails
-	36, // 49: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.set_current_client_cert_details:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails
-	30, // 50: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.request_id:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.RequestId
-	29, // 51: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.server:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.Server
-	31, // 52: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.attempt_count:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.AttemptCount
-	34, // 53: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.envoy_debug_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.EnvoyDebugHeaders
-	35, // 54: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.metadata_exchange_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeHeaders
-	38, // 55: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.preserve_http1_header_case:type_name -> google.protobuf.BoolValue
-	32, // 56: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.x_forwarded_host:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedHost
-	33, // 57: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.x_forwarded_port:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedPort
-	38, // 58: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.Server.disabled:type_name -> google.protobuf.BoolValue
-	38, // 59: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.RequestId.disabled:type_name -> google.protobuf.BoolValue
-	38, // 60: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.AttemptCount.disabled:type_name -> google.protobuf.BoolValue
-	38, // 61: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedHost.enabled:type_name -> google.protobuf.BoolValue
-	38, // 62: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedPort.enabled:type_name -> google.protobuf.BoolValue
-	38, // 63: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.EnvoyDebugHeaders.disabled:type_name -> google.protobuf.BoolValue
-	5,  // 64: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeHeaders.mode:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeMode
-	38, // 65: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.subject:type_name -> google.protobuf.BoolValue
-	38, // 66: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.cert:type_name -> google.protobuf.BoolValue
-	38, // 67: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.chain:type_name -> google.protobuf.BoolValue
-	38, // 68: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.dns:type_name -> google.protobuf.BoolValue
-	38, // 69: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.uri:type_name -> google.protobuf.BoolValue
-	70, // [70:70] is the sub-list for method output_type
-	70, // [70:70] is the sub-list for method input_type
-	70, // [70:70] is the sub-list for extension type_name
-	70, // [70:70] is the sub-list for extension extendee
-	0,  // [0:70] is the sub-list for field type_name
+	38, // 10: istio.mesh.v1alpha1.Topology.skip_xff_append:type_name -> google.protobuf.BoolValue
+	23, // 11: istio.mesh.v1alpha1.PrivateKeyProvider.cryptomb:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb
+	24, // 12: istio.mesh.v1alpha1.PrivateKeyProvider.qat:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider.QAT
+	3,  // 13: istio.mesh.v1alpha1.ProxyConfig.tracing_service_name:type_name -> istio.mesh.v1alpha1.ProxyConfig.TracingServiceName
+	39, // 14: istio.mesh.v1alpha1.ProxyConfig.drain_duration:type_name -> google.protobuf.Duration
+	39, // 15: istio.mesh.v1alpha1.ProxyConfig.discovery_refresh_delay:type_name -> google.protobuf.Duration
+	0,  // 16: istio.mesh.v1alpha1.ProxyConfig.control_plane_auth_policy:type_name -> istio.mesh.v1alpha1.AuthenticationPolicy
+	40, // 17: istio.mesh.v1alpha1.ProxyConfig.concurrency:type_name -> google.protobuf.Int32Value
+	4,  // 18: istio.mesh.v1alpha1.ProxyConfig.interception_mode:type_name -> istio.mesh.v1alpha1.ProxyConfig.InboundInterceptionMode
+	6,  // 19: istio.mesh.v1alpha1.ProxyConfig.tracing:type_name -> istio.mesh.v1alpha1.Tracing
+	7,  // 20: istio.mesh.v1alpha1.ProxyConfig.sds:type_name -> istio.mesh.v1alpha1.SDS
+	11, // 21: istio.mesh.v1alpha1.ProxyConfig.envoy_access_log_service:type_name -> istio.mesh.v1alpha1.RemoteService
+	11, // 22: istio.mesh.v1alpha1.ProxyConfig.envoy_metrics_service:type_name -> istio.mesh.v1alpha1.RemoteService
+	25, // 23: istio.mesh.v1alpha1.ProxyConfig.proxy_metadata:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyMetadataEntry
+	26, // 24: istio.mesh.v1alpha1.ProxyConfig.runtime_values:type_name -> istio.mesh.v1alpha1.ProxyConfig.RuntimeValuesEntry
+	8,  // 25: istio.mesh.v1alpha1.ProxyConfig.gateway_topology:type_name -> istio.mesh.v1alpha1.Topology
+	39, // 26: istio.mesh.v1alpha1.ProxyConfig.termination_drain_duration:type_name -> google.protobuf.Duration
+	41, // 27: istio.mesh.v1alpha1.ProxyConfig.readiness_probe:type_name -> istio.networking.v1alpha3.ReadinessProbe
+	27, // 28: istio.mesh.v1alpha1.ProxyConfig.proxy_stats_matcher:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyStatsMatcher
+	38, // 29: istio.mesh.v1alpha1.ProxyConfig.hold_application_until_proxy_starts:type_name -> google.protobuf.BoolValue
+	42, // 30: istio.mesh.v1alpha1.ProxyConfig.image:type_name -> istio.networking.v1beta1.ProxyImage
+	9,  // 31: istio.mesh.v1alpha1.ProxyConfig.private_key_provider:type_name -> istio.mesh.v1alpha1.PrivateKeyProvider
+	28, // 32: istio.mesh.v1alpha1.ProxyConfig.proxy_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders
+	39, // 33: istio.mesh.v1alpha1.ProxyConfig.file_flush_interval:type_name -> google.protobuf.Duration
+	38, // 34: istio.mesh.v1alpha1.ProxyConfig.stats_compression:type_name -> google.protobuf.BoolValue
+	37, // 35: istio.mesh.v1alpha1.RemoteService.tls_settings:type_name -> istio.networking.v1alpha3.ClientTLSSettings
+	43, // 36: istio.mesh.v1alpha1.RemoteService.tcp_keepalive:type_name -> istio.networking.v1alpha3.ConnectionPoolSettings.TCPSettings.TcpKeepalive
+	44, // 37: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_attributes:type_name -> google.protobuf.Int64Value
+	44, // 38: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_annotations:type_name -> google.protobuf.Int64Value
+	44, // 39: istio.mesh.v1alpha1.Tracing.Stackdriver.max_number_of_message_events:type_name -> google.protobuf.Int64Value
+	2,  // 40: istio.mesh.v1alpha1.Tracing.OpenCensusAgent.context:type_name -> istio.mesh.v1alpha1.Tracing.OpenCensusAgent.TraceContext
+	18, // 41: istio.mesh.v1alpha1.Tracing.CustomTag.literal:type_name -> istio.mesh.v1alpha1.Tracing.Literal
+	19, // 42: istio.mesh.v1alpha1.Tracing.CustomTag.environment:type_name -> istio.mesh.v1alpha1.Tracing.Environment
+	20, // 43: istio.mesh.v1alpha1.Tracing.CustomTag.header:type_name -> istio.mesh.v1alpha1.Tracing.RequestHeader
+	17, // 44: istio.mesh.v1alpha1.Tracing.CustomTagsEntry.value:type_name -> istio.mesh.v1alpha1.Tracing.CustomTag
+	39, // 45: istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb.poll_delay:type_name -> google.protobuf.Duration
+	38, // 46: istio.mesh.v1alpha1.PrivateKeyProvider.CryptoMb.fallback:type_name -> google.protobuf.BoolValue
+	39, // 47: istio.mesh.v1alpha1.PrivateKeyProvider.QAT.poll_delay:type_name -> google.protobuf.Duration
+	38, // 48: istio.mesh.v1alpha1.PrivateKeyProvider.QAT.fallback:type_name -> google.protobuf.BoolValue
+	1,  // 49: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.forwarded_client_cert:type_name -> istio.mesh.v1alpha1.ForwardClientCertDetails
+	36, // 50: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.set_current_client_cert_details:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails
+	30, // 51: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.request_id:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.RequestId
+	29, // 52: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.server:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.Server
+	31, // 53: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.attempt_count:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.AttemptCount
+	34, // 54: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.envoy_debug_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.EnvoyDebugHeaders
+	35, // 55: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.metadata_exchange_headers:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeHeaders
+	38, // 56: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.preserve_http1_header_case:type_name -> google.protobuf.BoolValue
+	32, // 57: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.x_forwarded_host:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedHost
+	33, // 58: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.x_forwarded_port:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedPort
+	38, // 59: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.Server.disabled:type_name -> google.protobuf.BoolValue
+	38, // 60: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.RequestId.disabled:type_name -> google.protobuf.BoolValue
+	38, // 61: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.AttemptCount.disabled:type_name -> google.protobuf.BoolValue
+	38, // 62: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedHost.enabled:type_name -> google.protobuf.BoolValue
+	38, // 63: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.XForwardedPort.enabled:type_name -> google.protobuf.BoolValue
+	38, // 64: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.EnvoyDebugHeaders.disabled:type_name -> google.protobuf.BoolValue
+	5,  // 65: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeHeaders.mode:type_name -> istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.MetadataExchangeMode
+	38, // 66: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.subject:type_name -> google.protobuf.BoolValue
+	38, // 67: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.cert:type_name -> google.protobuf.BoolValue
+	38, // 68: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.chain:type_name -> google.protobuf.BoolValue
+	38, // 69: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.dns:type_name -> google.protobuf.BoolValue
+	38, // 70: istio.mesh.v1alpha1.ProxyConfig.ProxyHeaders.SetCurrentClientCertDetails.uri:type_name -> google.protobuf.BoolValue
+	71, // [71:71] is the sub-list for method output_type
+	71, // [71:71] is the sub-list for method input_type
+	71, // [71:71] is the sub-list for extension type_name
+	71, // [71:71] is the sub-list for extension extendee
+	0,  // [0:71] is the sub-list for field type_name
 }
 
 func init() { file_mesh_v1alpha1_proxy_proto_init() }

@@ -6,7 +6,7 @@ layout: protoc-gen-docs
 generator: protoc-gen-docs
 schema: istio.networking.v1alpha3.DestinationRule
 aliases: [/docs/reference/config/networking/v1alpha3/destination-rule]
-number_of_entries: 28
+number_of_entries: 32
 ---
 <p><code>DestinationRule</code> defines policies that apply to traffic intended for a
 service after routing has occurred. These rules specify configuration
@@ -616,6 +616,15 @@ spec:
 <td>
 </td>
 </tr>
+<tr id="LoadBalancerSettings-dynamic_subset" class="oneof">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-dynamic_subset">dynamicSubset</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-DynamicSubsetLB">DynamicSubsetLB (oneof)</a></div>
+</div></td>
+<td>
+<p>&mdash; added by asm &mdash;</p>
+
+</td>
+</tr>
 <tr id="LoadBalancerSettings-locality_lb_setting">
 <td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-locality_lb_setting">localityLbSetting</a></code></div>
 <div class="type"><a href="#LocalityLoadBalancerSetting">LocalityLoadBalancerSetting</a></div>
@@ -887,6 +896,142 @@ the generated cookie will be a session cookie.</p>
 </tbody>
 </table>
 </section>
+<h3 id="LoadBalancerSettings-DynamicSubsetLB">DynamicSubsetLB</h3>
+<section>
+<p>&mdash; added by asm &mdash;</p>
+
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-fallback_policy">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-fallback_policy">fallbackPolicy</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">FallbackPolicy</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-default_subset">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-default_subset">defaultSubset</a></code></div>
+<div class="type">map&lt;string,&nbsp;string&gt;</div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-subset_selectors">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-subset_selectors">subsetSelectors</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-DynamicSubsetLB-SubsetSelector">SubsetSelector[]</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-lb_policy">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-lb_policy">lbPolicy</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LbPolicy</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector">SubsetSelector</h4>
+<section>
+<table class="message-fields">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-fallback_policy">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-fallback_policy">fallbackPolicy</a></code></div>
+<div class="type"><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">FallbackPolicy</a></div>
+</div></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-keys">
+<td><div class="field"><div class="name"><code><a href="#LoadBalancerSettings-DynamicSubsetLB-SubsetSelector-keys">keys</a></code></div>
+<div class="type">string[]</div>
+</div></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy">FallbackPolicy</h4>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-UNSPECIFIED">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-UNSPECIFIED">UNSPECIFIED</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-NO_FALLBACK">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-NO_FALLBACK">NO_FALLBACK</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-ANY_ENDPOINT">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-ANY_ENDPOINT">ANY_ENDPOINT</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-DEFAULT_SUBSET">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-FallbackPolicy-DEFAULT_SUBSET">DEFAULT_SUBSET</a></code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<h4 id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy">LbPolicy</h4>
+<section>
+<table class="enum-values">
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-UNDEFINED">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy-UNDEFINED">UNDEFINED</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-RANDOM">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy-RANDOM">RANDOM</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-ROUND_ROBIN">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy-ROUND_ROBIN">ROUND_ROBIN</a></code></td>
+<td>
+</td>
+</tr>
+<tr id="LoadBalancerSettings-DynamicSubsetLB-LbPolicy-LEAST_REQUEST">
+<td><code><a href="#LoadBalancerSettings-DynamicSubsetLB-LbPolicy-LEAST_REQUEST">LEAST_REQUEST</a></code></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
 <h3 id="LoadBalancerSettings-SimpleLB">SimpleLB</h3>
 <section>
 <p>Standard load balancing algorithms that require no tuning.</p>
@@ -944,6 +1089,16 @@ drop-in replacement for ROUND_ROBIN.</p>
 endpoints with the least outstanding requests. This is generally safer
 and outperforms ROUND_ROBIN in nearly all cases. Prefer to use
 LEAST_REQUEST as a drop-in replacement for ROUND_ROBIN.</p>
+
+</td>
+</tr>
+<tr id="LoadBalancerSettings-SimpleLB-PEAK_EWMA">
+<td><code><a href="#LoadBalancerSettings-SimpleLB-PEAK_EWMA">PEAK_EWMA</a></code></td>
+<td>
+<p>The peak-ewma algorithm selects 2 endpoints via p2c and then compares
+their scores,  which are calculated based on multiple factors, including:
+latency, error rate, and the number of in-flight requests. endpoint got
+higher score wins.</p>
 
 </td>
 </tr>
