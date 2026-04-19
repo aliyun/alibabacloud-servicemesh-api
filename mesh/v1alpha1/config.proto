@@ -1504,25 +1504,25 @@ message MeshConfig {
     //     - id: cluster-b
     //     - id: cluster-c
     // ```
-    // 
+    //
     // NOTE: If a cluster refered different providers, the first provider refered will be used.
     message AggregateProvider {
       // REQUIRED. The default provider to use when no unique provider is matched.
       istio.telemetry.v1alpha1.ProviderRef default_provider = 1;
       // Optional. List of unique providers that override the default provider.
       repeated UniqueProviderRef unique_providers = 2;
-      
+
       message UniqueProviderRef {
         // REQUIRED. The unique provider to use when a proxy is matched.
         istio.telemetry.v1alpha1.ProviderRef provider = 1;
         // Optional. List of clusters that will use the provider.
         repeated ClusterRef clusters = 2;
-        
+
         // TODO: maybe namespace and workload scope selector
         // repeated string namespaces = 3;
         // istio.type.v1beta1.WorkloadSelector selector = 4;
       }
-      
+
       message ClusterRef {
         // REQUIRE. Id of the cluster, will be used as proxy selector.
         string id = 1;
